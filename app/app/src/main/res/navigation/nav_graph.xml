@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/scanFragment">
+    <fragment
+        android:id="@+id/scanFragment"
+        android:name="net.pdev.ears.ScanFragment"
+        android:label="@string/scan_fragment"
+        tools:layout="@layout/scan_fragment">
+        <action
+            android:id="@+id/action_scanFragment_to_earsFragment"
+            app:destination="@id/earsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/earsFragment"
+        android:name="net.pdev.ears.EarsFragment"
+        android:label="@string/ears_title"
+        tools:layout="@layout/ears_fragment">
+        <action
+            android:id="@+id/action_earsFragment_to_scanFragment"
+            app:destination="@id/scanFragment" />
+    </fragment>
+</navigation>
