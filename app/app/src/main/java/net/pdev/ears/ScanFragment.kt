@@ -26,8 +26,8 @@ class ScanFragment : Fragment() {
     private val binding get() = _binding!!
 
     override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
+            inflater: LayoutInflater, container: ViewGroup?,
+            savedInstanceState: Bundle?
     ): View? {
 
         _binding = ScanFragmentBinding.inflate(inflater, container, false)
@@ -37,7 +37,7 @@ class ScanFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        setupRecyclerView()
+
 //        binding.scanButton.setOnClickListener {
 //            findNavController().navigate(R.id.action_scanFragment_to_earsFragment)
 //        }
@@ -45,9 +45,10 @@ class ScanFragment : Fragment() {
 
     private fun setupRecyclerView() {
         binding.scanResultsRecyclerView.apply {
-            adapter = (activity as MainActivity).scanResultAdapter
+            adapter =         ((this.activity?) as MainActivity)
+
             layoutManager = LinearLayoutManager(
-                activity,
+                this@ScanFragment,
                 RecyclerView.VERTICAL,
                 false
             )

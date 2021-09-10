@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "freertos.h": "c",
+        "string_view": "c",
+        "regex": "c",
+        "stdint.h": "c"
+    }
+}
