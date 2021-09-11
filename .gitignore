@@ -1,3 +1,4 @@
 # This covers all build subdirectories in app, ear_controller, hello_world
 
 **/build
+**/.DS_Store

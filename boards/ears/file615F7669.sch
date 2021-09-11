@@ -1,0 +1,920 @@
+EESchema Schematic File Version 4
+EELAYER 30 0
+EELAYER END
+$Descr A4 11693 8268
+encoding utf-8
+Sheet 2 2
+Title ""
+Date ""
+Rev ""
+Comp ""
+Comment1 ""
+Comment2 ""
+Comment3 ""
+Comment4 ""
+$EndDescr
+$Comp
+L LED:WS2812B D?
+U 1 1 61610E67
+P 2900 1200
+AR Path="/61610E67" Ref="D?"  Part="1" 
+AR Path="/615F766A/61610E67" Ref="D49"  Part="1" 
+F 0 "D49" H 3244 1246 50  0000 L CNN
+F 1 "WS2812B" H 3244 1155 50  0000 L CNN
+F 2 "LED_SMD:LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm" H 2950 900 50  0001 L TNN
+F 3 "https://cdn-shop.adafruit.com/datasheets/WS2812B.pdf" H 3000 825 50  0001 L TNN
+	1    2900 1200
+	1    0    0    -1  
+$EndComp
+$Comp
+L Connector:Conn_01x03_Male J3
+U 1 1 6162F6FC
+P 1050 1050
+F 0 "J3" H 1158 1331 50  0000 C CNN
+F 1 "Conn_01x03_Male" H 1158 1240 50  0000 C CNN
+F 2 "Connector_PinHeader_1.00mm:PinHeader_1x03_P1.00mm_Horizontal" H 1050 1050 50  0001 C CNN
+F 3 "~" H 1050 1050 50  0001 C CNN
+	1    1050 1050
+	1    0    0    -1  
+$EndComp
+Text Label 1250 950  0    50   ~ 0
+5V_EARS2
+Text Label 1250 1150 0    50   ~ 0
+GND_EARS2
+Text Label 1250 1050 0    50   ~ 0
+DATA_LED_EARS2
+Text Label 2600 1200 2    50   ~ 0
+DATA_LED_EARS2
+Text Label 2900 900  1    50   ~ 0
+5V_EARS2
+Text Label 2900 1500 3    50   ~ 0
+GND_EARS2
+$Comp
+L LED:WS2812B D?
+U 1 1 6163257A
+P 3500 1200
+AR Path="/6163257A" Ref="D?"  Part="1" 
+AR Path="/615F766A/6163257A" Ref="D50"  Part="1" 
+F 0 "D50" H 3844 1246 50  0000 L CNN
+F 1 "WS2812B" H 3844 1155 50  0000 L CNN
+F 2 "LED_SMD:LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm" H 3550 900 50  0001 L TNN
+F 3 "https://cdn-shop.adafruit.com/datasheets/WS2812B.pdf" H 3600 825 50  0001 L TNN
+	1    3500 1200
+	1    0    0    -1  
+$EndComp
+Text Label 3500 900  1    50   ~ 0
+5V_EARS2
+Text Label 3500 1500 3    50   ~ 0
+GND_EARS2
+$Comp
+L LED:WS2812B D?
+U 1 1 61633CE4
+P 4100 1200
+AR Path="/61633CE4" Ref="D?"  Part="1" 
+AR Path="/615F766A/61633CE4" Ref="D51"  Part="1" 
+F 0 "D51" H 4444 1246 50  0000 L CNN
+F 1 "WS2812B" H 4444 1155 50  0000 L CNN
+F 2 "LED_SMD:LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm" H 4150 900 50  0001 L TNN
+F 3 "https://cdn-shop.adafruit.com/datasheets/WS2812B.pdf" H 4200 825 50  0001 L TNN
+	1    4100 1200
+	1    0    0    -1  
+$EndComp
+Text Label 4100 900  1    50   ~ 0
+5V_EARS2
+Text Label 4100 1500 3    50   ~ 0
+GND_EARS2
+$Comp
+L LED:WS2812B D?
+U 1 1 61633CEC
+P 4700 1200
+AR Path="/61633CEC" Ref="D?"  Part="1" 
+AR Path="/615F766A/61633CEC" Ref="D52"  Part="1" 
+F 0 "D52" H 5044 1246 50  0000 L CNN
+F 1 "WS2812B" H 5044 1155 50  0000 L CNN
+F 2 "LED_SMD:LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm" H 4750 900 50  0001 L TNN
+F 3 "https://cdn-shop.adafruit.com/datasheets/WS2812B.pdf" H 4800 825 50  0001 L TNN
+	1    4700 1200
+	1    0    0    -1  
+$EndComp
+Text Label 4700 900  1    50   ~ 0
+5V_EARS2
+Text Label 4700 1500 3    50   ~ 0
+GND_EARS2
+$Comp
+L LED:WS2812B D?
+U 1 1 61636E6A
+P 5300 1200
+AR Path="/61636E6A" Ref="D?"  Part="1" 
+AR Path="/615F766A/61636E6A" Ref="D53"  Part="1" 
+F 0 "D53" H 5644 1246 50  0000 L CNN
+F 1 "WS2812B" H 5644 1155 50  0000 L CNN
+F 2 "LED_SMD:LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm" H 5350 900 50  0001 L TNN
+F 3 "https://cdn-shop.adafruit.com/datasheets/WS2812B.pdf" H 5400 825 50  0001 L TNN
+	1    5300 1200
+	1    0    0    -1  
+$EndComp
+Text Label 5300 900  1    50   ~ 0
+5V_EARS2
+Text Label 5300 1500 3    50   ~ 0
+GND_EARS2
+$Comp
+L LED:WS2812B D?
+U 1 1 61636E72
+P 5900 1200
+AR Path="/61636E72" Ref="D?"  Part="1" 
+AR Path="/615F766A/61636E72" Ref="D54"  Part="1" 
+F 0 "D54" H 6244 1246 50  0000 L CNN
+F 1 "WS2812B" H 6244 1155 50  0000 L CNN
+F 2 "LED_SMD:LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm" H 5950 900 50  0001 L TNN
+F 3 "https://cdn-shop.adafruit.com/datasheets/WS2812B.pdf" H 6000 825 50  0001 L TNN
+	1    5900 1200
+	1    0    0    -1  
+$EndComp
+Text Label 5900 900  1    50   ~ 0
+5V_EARS2
+Text Label 5900 1500 3    50   ~ 0
+GND_EARS2
+$Comp
+L LED:WS2812B D?
+U 1 1 61636E7A
+P 6500 1200
+AR Path="/61636E7A" Ref="D?"  Part="1" 
+AR Path="/615F766A/61636E7A" Ref="D55"  Part="1" 
+F 0 "D55" H 6844 1246 50  0000 L CNN
+F 1 "WS2812B" H 6844 1155 50  0000 L CNN
+F 2 "LED_SMD:LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm" H 6550 900 50  0001 L TNN
+F 3 "https://cdn-shop.adafruit.com/datasheets/WS2812B.pdf" H 6600 825 50  0001 L TNN
+	1    6500 1200
+	1    0    0    -1  
+$EndComp
+Text Label 6500 900  1    50   ~ 0
+5V_EARS2
+Text Label 6500 1500 3    50   ~ 0
+GND_EARS2
+$Comp
+L LED:WS2812B D?
+U 1 1 61636E82
+P 7100 1200
+AR Path="/61636E82" Ref="D?"  Part="1" 
+AR Path="/615F766A/61636E82" Ref="D56"  Part="1" 
+F 0 "D56" H 7444 1246 50  0000 L CNN
+F 1 "WS2812B" H 7444 1155 50  0000 L CNN
+F 2 "LED_SMD:LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm" H 7150 900 50  0001 L TNN
+F 3 "https://cdn-shop.adafruit.com/datasheets/WS2812B.pdf" H 7200 825 50  0001 L TNN
+	1    7100 1200
+	1    0    0    -1  
+$EndComp
+Text Label 7100 900  1    50   ~ 0
+5V_EARS2
+Text Label 7100 1500 3    50   ~ 0
+GND_EARS2
+$Comp
+L LED:WS2812B D?
+U 1 1 6163A15C
+P 7700 1200
+AR Path="/6163A15C" Ref="D?"  Part="1" 
+AR Path="/615F766A/6163A15C" Ref="D57"  Part="1" 
+F 0 "D57" H 8044 1246 50  0000 L CNN
+F 1 "WS2812B" H 8044 1155 50  0000 L CNN
+F 2 "LED_SMD:LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm" H 7750 900 50  0001 L TNN
+F 3 "https://cdn-shop.adafruit.com/datasheets/WS2812B.pdf" H 7800 825 50  0001 L TNN
+	1    7700 1200
+	1    0    0    -1  
+$EndComp
+Text Label 7700 900  1    50   ~ 0
+5V_EARS2
+Text Label 7700 1500 3    50   ~ 0
+GND_EARS2
+$Comp
+L LED:WS2812B D?
+U 1 1 6163A164
+P 8300 1200
+AR Path="/6163A164" Ref="D?"  Part="1" 
+AR Path="/615F766A/6163A164" Ref="D58"  Part="1" 
+F 0 "D58" H 8644 1246 50  0000 L CNN
+F 1 "WS2812B" H 8644 1155 50  0000 L CNN
+F 2 "LED_SMD:LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm" H 8350 900 50  0001 L TNN
+F 3 "https://cdn-shop.adafruit.com/datasheets/WS2812B.pdf" H 8400 825 50  0001 L TNN
+	1    8300 1200
+	1    0    0    -1  
+$EndComp
+Text Label 8300 900  1    50   ~ 0
+5V_EARS2
+Text Label 8300 1500 3    50   ~ 0
+GND_EARS2
+$Comp
+L LED:WS2812B D?
+U 1 1 6163A16C
+P 8900 1200
+AR Path="/6163A16C" Ref="D?"  Part="1" 
+AR Path="/615F766A/6163A16C" Ref="D59"  Part="1" 
+F 0 "D59" H 9244 1246 50  0000 L CNN
+F 1 "WS2812B" H 9244 1155 50  0000 L CNN
+F 2 "LED_SMD:LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm" H 8950 900 50  0001 L TNN
+F 3 "https://cdn-shop.adafruit.com/datasheets/WS2812B.pdf" H 9000 825 50  0001 L TNN
+	1    8900 1200
+	1    0    0    -1  
+$EndComp
+Text Label 8900 900  1    50   ~ 0
+5V_EARS2
+Text Label 8900 1500 3    50   ~ 0
+GND_EARS2
+$Comp
+L LED:WS2812B D?
+U 1 1 6163A174
+P 9500 1200
+AR Path="/6163A174" Ref="D?"  Part="1" 
+AR Path="/615F766A/6163A174" Ref="D60"  Part="1" 
+F 0 "D60" H 9844 1246 50  0000 L CNN
+F 1 "WS2812B" H 9844 1155 50  0000 L CNN
+F 2 "LED_SMD:LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm" H 9550 900 50  0001 L TNN
+F 3 "https://cdn-shop.adafruit.com/datasheets/WS2812B.pdf" H 9600 825 50  0001 L TNN
+	1    9500 1200
+	1    0    0    -1  
+$EndComp
+Text Label 9500 900  1    50   ~ 0
+5V_EARS2
+Text Label 9500 1500 3    50   ~ 0
+GND_EARS2
+$Comp
+L LED:WS2812B D?
+U 1 1 616792DF
+P 2900 2700
+AR Path="/616792DF" Ref="D?"  Part="1" 
+AR Path="/615F766A/616792DF" Ref="D61"  Part="1" 
+F 0 "D61" H 3244 2746 50  0000 L CNN
+F 1 "WS2812B" H 3244 2655 50  0000 L CNN
+F 2 "LED_SMD:LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm" H 2950 2400 50  0001 L TNN
+F 3 "https://cdn-shop.adafruit.com/datasheets/WS2812B.pdf" H 3000 2325 50  0001 L TNN
+	1    2900 2700
+	1    0    0    -1  
+$EndComp
+Text Label 2900 2400 1    50   ~ 0
+5V_EARS2
+Text Label 2900 3000 3    50   ~ 0
+GND_EARS2
+$Comp
+L LED:WS2812B D?
+U 1 1 616792E7
+P 3500 2700
+AR Path="/616792E7" Ref="D?"  Part="1" 
+AR Path="/615F766A/616792E7" Ref="D62"  Part="1" 
+F 0 "D62" H 3844 2746 50  0000 L CNN
+F 1 "WS2812B" H 3844 2655 50  0000 L CNN
+F 2 "LED_SMD:LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm" H 3550 2400 50  0001 L TNN
+F 3 "https://cdn-shop.adafruit.com/datasheets/WS2812B.pdf" H 3600 2325 50  0001 L TNN
+	1    3500 2700
+	1    0    0    -1  
+$EndComp
+Text Label 3500 2400 1    50   ~ 0
+5V_EARS2
+Text Label 3500 3000 3    50   ~ 0
+GND_EARS2
+$Comp
+L LED:WS2812B D?
+U 1 1 616792EF
+P 4100 2700
+AR Path="/616792EF" Ref="D?"  Part="1" 
+AR Path="/615F766A/616792EF" Ref="D63"  Part="1" 
+F 0 "D63" H 4444 2746 50  0000 L CNN
+F 1 "WS2812B" H 4444 2655 50  0000 L CNN
+F 2 "LED_SMD:LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm" H 4150 2400 50  0001 L TNN
+F 3 "https://cdn-shop.adafruit.com/datasheets/WS2812B.pdf" H 4200 2325 50  0001 L TNN
+	1    4100 2700
+	1    0    0    -1  
+$EndComp
+Text Label 4100 2400 1    50   ~ 0
+5V_EARS2
+Text Label 4100 3000 3    50   ~ 0
+GND_EARS2
+$Comp
+L LED:WS2812B D?
+U 1 1 616792F7
+P 4700 2700
+AR Path="/616792F7" Ref="D?"  Part="1" 
+AR Path="/615F766A/616792F7" Ref="D64"  Part="1" 
+F 0 "D64" H 5044 2746 50  0000 L CNN
+F 1 "WS2812B" H 5044 2655 50  0000 L CNN
+F 2 "LED_SMD:LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm" H 4750 2400 50  0001 L TNN
+F 3 "https://cdn-shop.adafruit.com/datasheets/WS2812B.pdf" H 4800 2325 50  0001 L TNN
+	1    4700 2700
+	1    0    0    -1  
+$EndComp
+Text Label 4700 2400 1    50   ~ 0
+5V_EARS2
+Text Label 4700 3000 3    50   ~ 0
+GND_EARS2
+$Comp
+L LED:WS2812B D?
+U 1 1 616792FF
+P 5300 2700
+AR Path="/616792FF" Ref="D?"  Part="1" 
+AR Path="/615F766A/616792FF" Ref="D65"  Part="1" 
+F 0 "D65" H 5644 2746 50  0000 L CNN
+F 1 "WS2812B" H 5644 2655 50  0000 L CNN
+F 2 "LED_SMD:LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm" H 5350 2400 50  0001 L TNN
+F 3 "https://cdn-shop.adafruit.com/datasheets/WS2812B.pdf" H 5400 2325 50  0001 L TNN
+	1    5300 2700
+	1    0    0    -1  
+$EndComp
+Text Label 5300 2400 1    50   ~ 0
+5V_EARS2
+Text Label 5300 3000 3    50   ~ 0
+GND_EARS2
+$Comp
+L LED:WS2812B D?
+U 1 1 61679307
+P 5900 2700
+AR Path="/61679307" Ref="D?"  Part="1" 
+AR Path="/615F766A/61679307" Ref="D66"  Part="1" 
+F 0 "D66" H 6244 2746 50  0000 L CNN
+F 1 "WS2812B" H 6244 2655 50  0000 L CNN
+F 2 "LED_SMD:LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm" H 5950 2400 50  0001 L TNN
+F 3 "https://cdn-shop.adafruit.com/datasheets/WS2812B.pdf" H 6000 2325 50  0001 L TNN
+	1    5900 2700
+	1    0    0    -1  
+$EndComp
+Text Label 5900 2400 1    50   ~ 0
+5V_EARS2
+Text Label 5900 3000 3    50   ~ 0
+GND_EARS2
+$Comp
+L LED:WS2812B D?
+U 1 1 6167930F
+P 6500 2700
+AR Path="/6167930F" Ref="D?"  Part="1" 
+AR Path="/615F766A/6167930F" Ref="D67"  Part="1" 
+F 0 "D67" H 6844 2746 50  0000 L CNN
+F 1 "WS2812B" H 6844 2655 50  0000 L CNN
+F 2 "LED_SMD:LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm" H 6550 2400 50  0001 L TNN
+F 3 "https://cdn-shop.adafruit.com/datasheets/WS2812B.pdf" H 6600 2325 50  0001 L TNN
+	1    6500 2700
+	1    0    0    -1  
+$EndComp
+Text Label 6500 2400 1    50   ~ 0
+5V_EARS2
+Text Label 6500 3000 3    50   ~ 0
+GND_EARS2
+$Comp
+L LED:WS2812B D?
+U 1 1 61679317
+P 7100 2700
+AR Path="/61679317" Ref="D?"  Part="1" 
+AR Path="/615F766A/61679317" Ref="D68"  Part="1" 
+F 0 "D68" H 7444 2746 50  0000 L CNN
+F 1 "WS2812B" H 7444 2655 50  0000 L CNN
+F 2 "LED_SMD:LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm" H 7150 2400 50  0001 L TNN
+F 3 "https://cdn-shop.adafruit.com/datasheets/WS2812B.pdf" H 7200 2325 50  0001 L TNN
+	1    7100 2700
+	1    0    0    -1  
+$EndComp
+Text Label 7100 2400 1    50   ~ 0
+5V_EARS2
+Text Label 7100 3000 3    50   ~ 0
+GND_EARS2
+$Comp
+L LED:WS2812B D?
+U 1 1 6167931F
+P 7700 2700
+AR Path="/6167931F" Ref="D?"  Part="1" 
+AR Path="/615F766A/6167931F" Ref="D69"  Part="1" 
+F 0 "D69" H 8044 2746 50  0000 L CNN
+F 1 "WS2812B" H 8044 2655 50  0000 L CNN
+F 2 "LED_SMD:LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm" H 7750 2400 50  0001 L TNN
+F 3 "https://cdn-shop.adafruit.com/datasheets/WS2812B.pdf" H 7800 2325 50  0001 L TNN
+	1    7700 2700
+	1    0    0    -1  
+$EndComp
+Text Label 7700 2400 1    50   ~ 0
+5V_EARS2
+Text Label 7700 3000 3    50   ~ 0
+GND_EARS2
+$Comp
+L LED:WS2812B D?
+U 1 1 61679327
+P 8300 2700
+AR Path="/61679327" Ref="D?"  Part="1" 
+AR Path="/615F766A/61679327" Ref="D70"  Part="1" 
+F 0 "D70" H 8644 2746 50  0000 L CNN
+F 1 "WS2812B" H 8644 2655 50  0000 L CNN
+F 2 "LED_SMD:LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm" H 8350 2400 50  0001 L TNN
+F 3 "https://cdn-shop.adafruit.com/datasheets/WS2812B.pdf" H 8400 2325 50  0001 L TNN
+	1    8300 2700
+	1    0    0    -1  
+$EndComp
+Text Label 8300 2400 1    50   ~ 0
+5V_EARS2
+Text Label 8300 3000 3    50   ~ 0
+GND_EARS2
+$Comp
+L LED:WS2812B D?
+U 1 1 6167932F
+P 8900 2700
+AR Path="/6167932F" Ref="D?"  Part="1" 
+AR Path="/615F766A/6167932F" Ref="D71"  Part="1" 
+F 0 "D71" H 9244 2746 50  0000 L CNN
+F 1 "WS2812B" H 9244 2655 50  0000 L CNN
+F 2 "LED_SMD:LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm" H 8950 2400 50  0001 L TNN
+F 3 "https://cdn-shop.adafruit.com/datasheets/WS2812B.pdf" H 9000 2325 50  0001 L TNN
+	1    8900 2700
+	1    0    0    -1  
+$EndComp
+Text Label 8900 2400 1    50   ~ 0
+5V_EARS2
+Text Label 8900 3000 3    50   ~ 0
+GND_EARS2
+$Comp
+L LED:WS2812B D?
+U 1 1 61679337
+P 9500 2700
+AR Path="/61679337" Ref="D?"  Part="1" 
+AR Path="/615F766A/61679337" Ref="D72"  Part="1" 
+F 0 "D72" H 9844 2746 50  0000 L CNN
+F 1 "WS2812B" H 9844 2655 50  0000 L CNN
+F 2 "LED_SMD:LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm" H 9550 2400 50  0001 L TNN
+F 3 "https://cdn-shop.adafruit.com/datasheets/WS2812B.pdf" H 9600 2325 50  0001 L TNN
+	1    9500 2700
+	1    0    0    -1  
+$EndComp
+Text Label 9500 2400 1    50   ~ 0
+5V_EARS2
+Text Label 9500 3000 3    50   ~ 0
+GND_EARS2
+Wire Wire Line
+	9800 1200 9800 1950
+Wire Wire Line
+	9800 1950 2600 1950
+Wire Wire Line
+	2600 1950 2600 2700
+$Comp
+L LED:WS2812B D?
+U 1 1 61695DD4
+P 2900 4200
+AR Path="/61695DD4" Ref="D?"  Part="1" 
+AR Path="/615F766A/61695DD4" Ref="D73"  Part="1" 
+F 0 "D73" H 3244 4246 50  0000 L CNN
+F 1 "WS2812B" H 3244 4155 50  0000 L CNN
+F 2 "LED_SMD:LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm" H 2950 3900 50  0001 L TNN
+F 3 "https://cdn-shop.adafruit.com/datasheets/WS2812B.pdf" H 3000 3825 50  0001 L TNN
+	1    2900 4200
+	1    0    0    -1  
+$EndComp
+Text Label 2900 3900 1    50   ~ 0
+5V_EARS2
+Text Label 2900 4500 3    50   ~ 0
+GND_EARS2
+$Comp
+L LED:WS2812B D?
+U 1 1 61695DDC
+P 3500 4200
+AR Path="/61695DDC" Ref="D?"  Part="1" 
+AR Path="/615F766A/61695DDC" Ref="D74"  Part="1" 
+F 0 "D74" H 3844 4246 50  0000 L CNN
+F 1 "WS2812B" H 3844 4155 50  0000 L CNN
+F 2 "LED_SMD:LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm" H 3550 3900 50  0001 L TNN
+F 3 "https://cdn-shop.adafruit.com/datasheets/WS2812B.pdf" H 3600 3825 50  0001 L TNN
+	1    3500 4200
+	1    0    0    -1  
+$EndComp
+Text Label 3500 3900 1    50   ~ 0
+5V_EARS2
+Text Label 3500 4500 3    50   ~ 0
+GND_EARS2
+$Comp
+L LED:WS2812B D?
+U 1 1 61695DE4
+P 4100 4200
+AR Path="/61695DE4" Ref="D?"  Part="1" 
+AR Path="/615F766A/61695DE4" Ref="D75"  Part="1" 
+F 0 "D75" H 4444 4246 50  0000 L CNN
+F 1 "WS2812B" H 4444 4155 50  0000 L CNN
+F 2 "LED_SMD:LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm" H 4150 3900 50  0001 L TNN
+F 3 "https://cdn-shop.adafruit.com/datasheets/WS2812B.pdf" H 4200 3825 50  0001 L TNN
+	1    4100 4200
+	1    0    0    -1  
+$EndComp
+Text Label 4100 3900 1    50   ~ 0
+5V_EARS2
+Text Label 4100 4500 3    50   ~ 0
+GND_EARS2
+$Comp
+L LED:WS2812B D?
+U 1 1 61695DEC
+P 4700 4200
+AR Path="/61695DEC" Ref="D?"  Part="1" 
+AR Path="/615F766A/61695DEC" Ref="D76"  Part="1" 
+F 0 "D76" H 5044 4246 50  0000 L CNN
+F 1 "WS2812B" H 5044 4155 50  0000 L CNN
+F 2 "LED_SMD:LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm" H 4750 3900 50  0001 L TNN
+F 3 "https://cdn-shop.adafruit.com/datasheets/WS2812B.pdf" H 4800 3825 50  0001 L TNN
+	1    4700 4200
+	1    0    0    -1  
+$EndComp
+Text Label 4700 3900 1    50   ~ 0
+5V_EARS2
+Text Label 4700 4500 3    50   ~ 0
+GND_EARS2
+$Comp
+L LED:WS2812B D?
+U 1 1 61695DF4
+P 5300 4200
+AR Path="/61695DF4" Ref="D?"  Part="1" 
+AR Path="/615F766A/61695DF4" Ref="D77"  Part="1" 
+F 0 "D77" H 5644 4246 50  0000 L CNN
+F 1 "WS2812B" H 5644 4155 50  0000 L CNN
+F 2 "LED_SMD:LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm" H 5350 3900 50  0001 L TNN
+F 3 "https://cdn-shop.adafruit.com/datasheets/WS2812B.pdf" H 5400 3825 50  0001 L TNN
+	1    5300 4200
+	1    0    0    -1  
+$EndComp
+Text Label 5300 3900 1    50   ~ 0
+5V_EARS2
+Text Label 5300 4500 3    50   ~ 0
+GND_EARS2
+$Comp
+L LED:WS2812B D?
+U 1 1 61695DFC
+P 5900 4200
+AR Path="/61695DFC" Ref="D?"  Part="1" 
+AR Path="/615F766A/61695DFC" Ref="D78"  Part="1" 
+F 0 "D78" H 6244 4246 50  0000 L CNN
+F 1 "WS2812B" H 6244 4155 50  0000 L CNN
+F 2 "LED_SMD:LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm" H 5950 3900 50  0001 L TNN
+F 3 "https://cdn-shop.adafruit.com/datasheets/WS2812B.pdf" H 6000 3825 50  0001 L TNN
+	1    5900 4200
+	1    0    0    -1  
+$EndComp
+Text Label 5900 3900 1    50   ~ 0
+5V_EARS2
+Text Label 5900 4500 3    50   ~ 0
+GND_EARS2
+$Comp
+L LED:WS2812B D?
+U 1 1 61695E04
+P 6500 4200
+AR Path="/61695E04" Ref="D?"  Part="1" 
+AR Path="/615F766A/61695E04" Ref="D79"  Part="1" 
+F 0 "D79" H 6844 4246 50  0000 L CNN
+F 1 "WS2812B" H 6844 4155 50  0000 L CNN
+F 2 "LED_SMD:LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm" H 6550 3900 50  0001 L TNN
+F 3 "https://cdn-shop.adafruit.com/datasheets/WS2812B.pdf" H 6600 3825 50  0001 L TNN
+	1    6500 4200
+	1    0    0    -1  
+$EndComp
+Text Label 6500 3900 1    50   ~ 0
+5V_EARS2
+Text Label 6500 4500 3    50   ~ 0
+GND_EARS2
+$Comp
+L LED:WS2812B D?
+U 1 1 61695E0C
+P 7100 4200
+AR Path="/61695E0C" Ref="D?"  Part="1" 
+AR Path="/615F766A/61695E0C" Ref="D80"  Part="1" 
+F 0 "D80" H 7444 4246 50  0000 L CNN
+F 1 "WS2812B" H 7444 4155 50  0000 L CNN
+F 2 "LED_SMD:LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm" H 7150 3900 50  0001 L TNN
+F 3 "https://cdn-shop.adafruit.com/datasheets/WS2812B.pdf" H 7200 3825 50  0001 L TNN
+	1    7100 4200
+	1    0    0    -1  
+$EndComp
+Text Label 7100 3900 1    50   ~ 0
+5V_EARS2
+Text Label 7100 4500 3    50   ~ 0
+GND_EARS2
+$Comp
+L LED:WS2812B D?
+U 1 1 61695E14
+P 7700 4200
+AR Path="/61695E14" Ref="D?"  Part="1" 
+AR Path="/615F766A/61695E14" Ref="D81"  Part="1" 
+F 0 "D81" H 8044 4246 50  0000 L CNN
+F 1 "WS2812B" H 8044 4155 50  0000 L CNN
+F 2 "LED_SMD:LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm" H 7750 3900 50  0001 L TNN
+F 3 "https://cdn-shop.adafruit.com/datasheets/WS2812B.pdf" H 7800 3825 50  0001 L TNN
+	1    7700 4200
+	1    0    0    -1  
+$EndComp
+Text Label 7700 3900 1    50   ~ 0
+5V_EARS2
+Text Label 7700 4500 3    50   ~ 0
+GND_EARS2
+$Comp
+L LED:WS2812B D?
+U 1 1 61695E1C
+P 8300 4200
+AR Path="/61695E1C" Ref="D?"  Part="1" 
+AR Path="/615F766A/61695E1C" Ref="D82"  Part="1" 
+F 0 "D82" H 8644 4246 50  0000 L CNN
+F 1 "WS2812B" H 8644 4155 50  0000 L CNN
+F 2 "LED_SMD:LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm" H 8350 3900 50  0001 L TNN
+F 3 "https://cdn-shop.adafruit.com/datasheets/WS2812B.pdf" H 8400 3825 50  0001 L TNN
+	1    8300 4200
+	1    0    0    -1  
+$EndComp
+Text Label 8300 3900 1    50   ~ 0
+5V_EARS2
+Text Label 8300 4500 3    50   ~ 0
+GND_EARS2
+$Comp
+L LED:WS2812B D?
+U 1 1 61695E24
+P 8900 4200
+AR Path="/61695E24" Ref="D?"  Part="1" 
+AR Path="/615F766A/61695E24" Ref="D83"  Part="1" 
+F 0 "D83" H 9244 4246 50  0000 L CNN
+F 1 "WS2812B" H 9244 4155 50  0000 L CNN
+F 2 "LED_SMD:LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm" H 8950 3900 50  0001 L TNN
+F 3 "https://cdn-shop.adafruit.com/datasheets/WS2812B.pdf" H 9000 3825 50  0001 L TNN
+	1    8900 4200
+	1    0    0    -1  
+$EndComp
+Text Label 8900 3900 1    50   ~ 0
+5V_EARS2
+Text Label 8900 4500 3    50   ~ 0
+GND_EARS2
+$Comp
+L LED:WS2812B D?
+U 1 1 61695E2C
+P 9500 4200
+AR Path="/61695E2C" Ref="D?"  Part="1" 
+AR Path="/615F766A/61695E2C" Ref="D84"  Part="1" 
+F 0 "D84" H 9844 4246 50  0000 L CNN
+F 1 "WS2812B" H 9844 4155 50  0000 L CNN
+F 2 "LED_SMD:LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm" H 9550 3900 50  0001 L TNN
+F 3 "https://cdn-shop.adafruit.com/datasheets/WS2812B.pdf" H 9600 3825 50  0001 L TNN
+	1    9500 4200
+	1    0    0    -1  
+$EndComp
+Text Label 9500 3900 1    50   ~ 0
+5V_EARS2
+Text Label 9500 4500 3    50   ~ 0
+GND_EARS2
+Wire Wire Line
+	9800 2700 9800 3450
+Wire Wire Line
+	9800 3450 2600 3450
+Wire Wire Line
+	2600 3450 2600 4200
+$Comp
+L LED:WS2812B D?
+U 1 1 616B21C3
+P 2900 5700
+AR Path="/616B21C3" Ref="D?"  Part="1" 
+AR Path="/615F766A/616B21C3" Ref="D85"  Part="1" 
+F 0 "D85" H 3244 5746 50  0000 L CNN
+F 1 "WS2812B" H 3244 5655 50  0000 L CNN
+F 2 "LED_SMD:LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm" H 2950 5400 50  0001 L TNN
+F 3 "https://cdn-shop.adafruit.com/datasheets/WS2812B.pdf" H 3000 5325 50  0001 L TNN
+	1    2900 5700
+	1    0    0    -1  
+$EndComp
+Text Label 2900 5400 1    50   ~ 0
+5V_EARS2
+Text Label 2900 6000 3    50   ~ 0
+GND_EARS2
+$Comp
+L LED:WS2812B D?
+U 1 1 616B21CB
+P 3500 5700
+AR Path="/616B21CB" Ref="D?"  Part="1" 
+AR Path="/615F766A/616B21CB" Ref="D86"  Part="1" 
+F 0 "D86" H 3844 5746 50  0000 L CNN
+F 1 "WS2812B" H 3844 5655 50  0000 L CNN
+F 2 "LED_SMD:LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm" H 3550 5400 50  0001 L TNN
+F 3 "https://cdn-shop.adafruit.com/datasheets/WS2812B.pdf" H 3600 5325 50  0001 L TNN
+	1    3500 5700
+	1    0    0    -1  
+$EndComp
+Text Label 3500 5400 1    50   ~ 0
+5V_EARS2
+Text Label 3500 6000 3    50   ~ 0
+GND_EARS2
+$Comp
+L LED:WS2812B D?
+U 1 1 616B21D3
+P 4100 5700
+AR Path="/616B21D3" Ref="D?"  Part="1" 
+AR Path="/615F766A/616B21D3" Ref="D87"  Part="1" 
+F 0 "D87" H 4444 5746 50  0000 L CNN
+F 1 "WS2812B" H 4444 5655 50  0000 L CNN
+F 2 "LED_SMD:LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm" H 4150 5400 50  0001 L TNN
+F 3 "https://cdn-shop.adafruit.com/datasheets/WS2812B.pdf" H 4200 5325 50  0001 L TNN
+	1    4100 5700
+	1    0    0    -1  
+$EndComp
+Text Label 4100 5400 1    50   ~ 0
+5V_EARS2
+Text Label 4100 6000 3    50   ~ 0
+GND_EARS2
+$Comp
+L LED:WS2812B D?
+U 1 1 616B21DB
+P 4700 5700
+AR Path="/616B21DB" Ref="D?"  Part="1" 
+AR Path="/615F766A/616B21DB" Ref="D88"  Part="1" 
+F 0 "D88" H 5044 5746 50  0000 L CNN
+F 1 "WS2812B" H 5044 5655 50  0000 L CNN
+F 2 "LED_SMD:LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm" H 4750 5400 50  0001 L TNN
+F 3 "https://cdn-shop.adafruit.com/datasheets/WS2812B.pdf" H 4800 5325 50  0001 L TNN
+	1    4700 5700
+	1    0    0    -1  
+$EndComp
+Text Label 4700 5400 1    50   ~ 0
+5V_EARS2
+Text Label 4700 6000 3    50   ~ 0
+GND_EARS2
+$Comp
+L LED:WS2812B D?
+U 1 1 616B21E3
+P 5300 5700
+AR Path="/616B21E3" Ref="D?"  Part="1" 
+AR Path="/615F766A/616B21E3" Ref="D89"  Part="1" 
+F 0 "D89" H 5644 5746 50  0000 L CNN
+F 1 "WS2812B" H 5644 5655 50  0000 L CNN
+F 2 "LED_SMD:LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm" H 5350 5400 50  0001 L TNN
+F 3 "https://cdn-shop.adafruit.com/datasheets/WS2812B.pdf" H 5400 5325 50  0001 L TNN
+	1    5300 5700
+	1    0    0    -1  
+$EndComp
+Text Label 5300 5400 1    50   ~ 0
+5V_EARS2
+Text Label 5300 6000 3    50   ~ 0
+GND_EARS2
+$Comp
+L LED:WS2812B D?
+U 1 1 616B21EB
+P 5900 5700
+AR Path="/616B21EB" Ref="D?"  Part="1" 
+AR Path="/615F766A/616B21EB" Ref="D90"  Part="1" 
+F 0 "D90" H 6244 5746 50  0000 L CNN
+F 1 "WS2812B" H 6244 5655 50  0000 L CNN
+F 2 "LED_SMD:LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm" H 5950 5400 50  0001 L TNN
+F 3 "https://cdn-shop.adafruit.com/datasheets/WS2812B.pdf" H 6000 5325 50  0001 L TNN
+	1    5900 5700
+	1    0    0    -1  
+$EndComp
+Text Label 5900 5400 1    50   ~ 0
+5V_EARS2
+Text Label 5900 6000 3    50   ~ 0
+GND_EARS2
+$Comp
+L LED:WS2812B D?
+U 1 1 616B21F3
+P 6500 5700
+AR Path="/616B21F3" Ref="D?"  Part="1" 
+AR Path="/615F766A/616B21F3" Ref="D91"  Part="1" 
+F 0 "D91" H 6844 5746 50  0000 L CNN
+F 1 "WS2812B" H 6844 5655 50  0000 L CNN
+F 2 "LED_SMD:LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm" H 6550 5400 50  0001 L TNN
+F 3 "https://cdn-shop.adafruit.com/datasheets/WS2812B.pdf" H 6600 5325 50  0001 L TNN
+	1    6500 5700
+	1    0    0    -1  
+$EndComp
+Text Label 6500 5400 1    50   ~ 0
+5V_EARS2
+Text Label 6500 6000 3    50   ~ 0
+GND_EARS2
+$Comp
+L LED:WS2812B D?
+U 1 1 616B21FB
+P 7100 5700
+AR Path="/616B21FB" Ref="D?"  Part="1" 
+AR Path="/615F766A/616B21FB" Ref="D92"  Part="1" 
+F 0 "D92" H 7444 5746 50  0000 L CNN
+F 1 "WS2812B" H 7444 5655 50  0000 L CNN
+F 2 "LED_SMD:LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm" H 7150 5400 50  0001 L TNN
+F 3 "https://cdn-shop.adafruit.com/datasheets/WS2812B.pdf" H 7200 5325 50  0001 L TNN
+	1    7100 5700
+	1    0    0    -1  
+$EndComp
+Text Label 7100 5400 1    50   ~ 0
+5V_EARS2
+Text Label 7100 6000 3    50   ~ 0
+GND_EARS2
+$Comp
+L LED:WS2812B D?
+U 1 1 616B2203
+P 7700 5700
+AR Path="/616B2203" Ref="D?"  Part="1" 
+AR Path="/615F766A/616B2203" Ref="D93"  Part="1" 
+F 0 "D93" H 8044 5746 50  0000 L CNN
+F 1 "WS2812B" H 8044 5655 50  0000 L CNN
+F 2 "LED_SMD:LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm" H 7750 5400 50  0001 L TNN
+F 3 "https://cdn-shop.adafruit.com/datasheets/WS2812B.pdf" H 7800 5325 50  0001 L TNN
+	1    7700 5700
+	1    0    0    -1  
+$EndComp
+Text Label 7700 5400 1    50   ~ 0
+5V_EARS2
+Text Label 7700 6000 3    50   ~ 0
+GND_EARS2
+$Comp
+L LED:WS2812B D?
+U 1 1 616B220B
+P 8300 5700
+AR Path="/616B220B" Ref="D?"  Part="1" 
+AR Path="/615F766A/616B220B" Ref="D94"  Part="1" 
+F 0 "D94" H 8644 5746 50  0000 L CNN
+F 1 "WS2812B" H 8644 5655 50  0000 L CNN
+F 2 "LED_SMD:LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm" H 8350 5400 50  0001 L TNN
+F 3 "https://cdn-shop.adafruit.com/datasheets/WS2812B.pdf" H 8400 5325 50  0001 L TNN
+	1    8300 5700
+	1    0    0    -1  
+$EndComp
+Text Label 8300 5400 1    50   ~ 0
+5V_EARS2
+Text Label 8300 6000 3    50   ~ 0
+GND_EARS2
+$Comp
+L LED:WS2812B D?
+U 1 1 616B2213
+P 8900 5700
+AR Path="/616B2213" Ref="D?"  Part="1" 
+AR Path="/615F766A/616B2213" Ref="D95"  Part="1" 
+F 0 "D95" H 9244 5746 50  0000 L CNN
+F 1 "WS2812B" H 9244 5655 50  0000 L CNN
+F 2 "LED_SMD:LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm" H 8950 5400 50  0001 L TNN
+F 3 "https://cdn-shop.adafruit.com/datasheets/WS2812B.pdf" H 9000 5325 50  0001 L TNN
+	1    8900 5700
+	1    0    0    -1  
+$EndComp
+Text Label 8900 5400 1    50   ~ 0
+5V_EARS2
+Text Label 8900 6000 3    50   ~ 0
+GND_EARS2
+$Comp
+L LED:WS2812B D?
+U 1 1 616B221B
+P 9500 5700
+AR Path="/616B221B" Ref="D?"  Part="1" 
+AR Path="/615F766A/616B221B" Ref="D96"  Part="1" 
+F 0 "D96" H 9844 5746 50  0000 L CNN
+F 1 "WS2812B" H 9844 5655 50  0000 L CNN
+F 2 "LED_SMD:LED_WS2812B_PLCC4_5.0x5.0mm_P3.2mm" H 9550 5400 50  0001 L TNN
+F 3 "https://cdn-shop.adafruit.com/datasheets/WS2812B.pdf" H 9600 5325 50  0001 L TNN
+	1    9500 5700
+	1    0    0    -1  
+$EndComp
+Text Label 9500 5400 1    50   ~ 0
+5V_EARS2
+Text Label 9500 6000 3    50   ~ 0
+GND_EARS2
+Wire Wire Line
+	9800 4200 9800 4950
+Wire Wire Line
+	9800 4950 2600 4950
+Wire Wire Line
+	2600 4950 2600 5700
+$Comp
+L Device:C_Small C?
+U 1 1 6173CA29
+P 900 2600
+AR Path="/6173CA29" Ref="C?"  Part="1" 
+AR Path="/615F766A/6173CA29" Ref="C7"  Part="1" 
+F 0 "C7" H 992 2646 50  0000 L CNN
+F 1 "470uF" H 992 2555 50  0000 L CNN
+F 2 "Capacitor_Tantalum_SMD:CP_EIA-7343-15_Kemet-W_Pad2.25x2.55mm_HandSolder" H 900 2600 50  0001 C CNN
+F 3 "~" H 900 2600 50  0001 C CNN
+	1    900  2600
+	1    0    0    -1  
+$EndComp
+Text Label 900  2500 1    50   ~ 0
+5V_EARS2
+Text Label 900  2700 3    50   ~ 0
+GND_EARS2
+$Comp
+L Device:C_Small C?
+U 1 1 6173E5D2
+P 1300 2600
+AR Path="/6173E5D2" Ref="C?"  Part="1" 
+AR Path="/615F766A/6173E5D2" Ref="C8"  Part="1" 
+F 0 "C8" H 1392 2646 50  0000 L CNN
+F 1 "470uF" H 1392 2555 50  0000 L CNN
+F 2 "Capacitor_Tantalum_SMD:CP_EIA-7343-15_Kemet-W_Pad2.25x2.55mm_HandSolder" H 1300 2600 50  0001 C CNN
+F 3 "~" H 1300 2600 50  0001 C CNN
+	1    1300 2600
+	1    0    0    -1  
+$EndComp
+Text Label 1300 2500 1    50   ~ 0
+5V_EARS2
+Text Label 1300 2700 3    50   ~ 0
+GND_EARS2
+$Comp
+L Device:C_Small C?
+U 1 1 6173ECA2
+P 1700 2600
+AR Path="/6173ECA2" Ref="C?"  Part="1" 
+AR Path="/615F766A/6173ECA2" Ref="C9"  Part="1" 
+F 0 "C9" H 1792 2646 50  0000 L CNN
+F 1 "470uF" H 1792 2555 50  0000 L CNN
+F 2 "Capacitor_Tantalum_SMD:CP_EIA-7343-15_Kemet-W_Pad2.25x2.55mm_HandSolder" H 1700 2600 50  0001 C CNN
+F 3 "~" H 1700 2600 50  0001 C CNN
+	1    1700 2600
+	1    0    0    -1  
+$EndComp
+Text Label 1700 2500 1    50   ~ 0
+5V_EARS2
+Text Label 1700 2700 3    50   ~ 0
+GND_EARS2
+$EndSCHEMATC
