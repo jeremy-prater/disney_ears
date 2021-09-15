@@ -32,9 +32,6 @@ class EarsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding.buttonSecond.setOnClickListener {
-            findNavController().navigate(R.id.action_earsFragment_to_scanFragment)
-        }
     }
 
     override fun onDestroyView() {

@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.SimpleItemAnimator
 import net.pdev.ears.databinding.ScanFragmentBinding
 import org.jetbrains.anko.support.v4.act
 import net.pdev.ears.MainActivity
+import org.jetbrains.anko.act
 
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
@@ -45,10 +46,10 @@ class ScanFragment : Fragment() {
 
     private fun setupRecyclerView() {
         binding.scanResultsRecyclerView.apply {
-            adapter =         ((this.activity?) as MainActivity)
+            adapter = this.adapter
 
             layoutManager = LinearLayoutManager(
-                this@ScanFragment,
+                this@ScanFragment.context,
                 RecyclerView.VERTICAL,
                 false
             )
