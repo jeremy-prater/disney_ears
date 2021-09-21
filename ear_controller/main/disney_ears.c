@@ -56,7 +56,7 @@ static void gatts_profile_event_handler(esp_gatts_cb_event_t event, esp_gatt_if_
 #define TEST_DEVICE_NAME "Disney BLEars"
 #define TEST_MANUFACTURER_DATA_LEN 13
 
-#define GATTS_DEMO_CHAR_VAL_LEN_MAX 0x40
+#define GATTS_DEMO_CHAR_VAL_LEN_MAX (3 * 96)
 
 #define PREPARE_BUF_MAX_SIZE 1024
 
@@ -318,6 +318,16 @@ void example_exec_write_event_env(prepare_type_env_t *prepare_write_env, esp_ble
     if (param->exec_write.exec_write_flag == ESP_GATT_PREP_WRITE_EXEC)
     {
         esp_log_buffer_hex(GATTS_TAG, prepare_write_env->prepare_buf, prepare_write_env->prepare_len);
+        ESP_LOGI("EARCOLOR", "Writing [%d] bytes to LEDs", prepare_write_env->prepare_len);
+
+        int writeSize = prepare_write_env->prepare_len;
+
+        if (writeSize > CONFIG_LED_STRIP_LEN)
+        {
+            writeSize = CONFIG_LED_STRIP_LEN;
+        }
+
+        memcpy(led_colors, prepare_write_env->prepare_buf, writeSize);
     }
     else
     {
@@ -385,11 +395,8 @@ static void gatts_profile_event_handler(esp_gatts_cb_event_t event, esp_gatt_if_
         esp_gatt_rsp_t rsp;
         memset(&rsp, 0, sizeof(esp_gatt_rsp_t));
         rsp.attr_value.handle = param->read.handle;
-        rsp.attr_value.len = 4;
-        rsp.attr_value.value[0] = 0xde;
-        rsp.attr_value.value[1] = 0xed;
-        rsp.attr_value.value[2] = 0xbe;
-        rsp.attr_value.value[3] = 0xef;
+        rsp.attr_value.len = sizeof(rgb_t) * 96;
+        memcpy(rsp.attr_value.value, led_colors, sizeof(rgb_t) * 96);
         esp_ble_gatts_send_response(gatts_if, param->read.conn_id, param->read.trans_id,
                                     ESP_GATT_OK, &rsp);
         break;
@@ -658,6 +665,9 @@ void app_main(void)
     }
 
     led_strip_install();
+    leds_init();
+    leds_zero_fill();
+
     xTaskCreate(led_task, "led_task", configMINIMAL_STACK_SIZE * 5, NULL, 5, NULL);
 
     return;

@@ -1,50 +1,77 @@
 #include <stdio.h>
 #include <freertos/FreeRTOS.h>
 #include <freertos/task.h>
+#include <esp_system.h>
 #include <led_strip.h>
+#include "leds.h"
 
 #define LED_TYPE LED_STRIP_WS2812
-#define LED_GPIO 14
+#define LED_GPIO 5
 
-static const rgb_t colors[] = {
-    {.r = 0x0f, .g = 0x0f, .b = 0x0f},
-    {.r = 0x00, .g = 0x00, .b = 0x2f},
-    {.r = 0x00, .g = 0x2f, .b = 0x00},
-    {.r = 0x2f, .g = 0x00, .b = 0x00},
-    {.r = 0x00, .g = 0x00, .b = 0x00},
+#define MAX_TEST 3
+
+rgb_t led_colors[CONFIG_LED_STRIP_LEN];
+
+static led_strip_t strip = {
+    .type = LED_TYPE,
+    .length = CONFIG_LED_STRIP_LEN,
+    .gpio = LED_GPIO,
+    .buf = NULL,
+#ifdef LED_STRIP_BRIGHTNESS
+    .brightness = 255,
+#endif
 };
 
-#define COLORS_TOTAL (sizeof(colors) / sizeof(rgb_t))
-#define CONFIG_LED_STRIP_LEN 100
+void leds_init()
+{
+
+    ESP_ERROR_CHECK(led_strip_init(&strip));
+}
 
 void led_task(void *pvParameters)
 {
-    printf("led_task!\n");
-    led_strip_t strip = {
-        .type = LED_TYPE,
-        .length = CONFIG_LED_STRIP_LEN,
-        .gpio = LED_GPIO,
-        .buf = NULL,
-#ifdef LED_STRIP_BRIGHTNESS
-        .brightness = 255,
-#endif
-    };
-
-    ESP_ERROR_CHECK(led_strip_init(&strip));
-
-    size_t c = 0;
     while (1)
     {
-        for (int index = 0; index < CONFIG_LED_STRIP_LEN; index++)
-        {
-            led_strip_set_pixel(&strip, index, colors[(index + c) % COLORS_TOTAL]);
-        }
-        // ESP_ERROR_CHECK(led_strip_fill(&strip, 0, strip.length, colors[c]));
-        ESP_ERROR_CHECK(led_strip_flush(&strip));
+        leds_update();
 
         vTaskDelay(pdMS_TO_TICKS(250));
+    }
+}
 
-        if (++c >= COLORS_TOTAL)
-            c = 0;
+void leds_update()
+{
+    led_strip_set_pixels(&strip, 0, CONFIG_LED_STRIP_LEN, led_colors);
+    led_strip_wait(&strip, portMAX_DELAY);
+    ESP_ERROR_CHECK(led_strip_flush(&strip));
+}
+
+void leds_zero_fill()
+{
+    memset(led_colors, 0, sizeof(rgb_t) * CONFIG_LED_STRIP_LEN);
+}
+
+void leds_random_fill()
+{
+    for (uint8_t index = 0; index < CONFIG_LED_STRIP_LEN; index++)
+    {
+        rgb_t value = {
+            .r = (esp_random() % MAX_TEST) + 1,
+            .g = (esp_random() % MAX_TEST) + 1,
+            .b = (esp_random() % MAX_TEST) + 1,
+        };
+        led_colors[index] = value;
+    }
+}
+
+void leds_solid_fill()
+{
+    for (uint8_t index = 0; index < CONFIG_LED_STRIP_LEN; index++)
+    {
+        rgb_t value = {
+            .r = (index + 0) % MAX_TEST,
+            .g = (index + 1) % MAX_TEST,
+            .b = (index + 2) % MAX_TEST,
+        };
+        led_colors[index] = value;
     }
 }
