@@ -1,3 +1,5 @@
+#include <led_strip.h>
+
 #define CONFIG_LED_STRIP_LEN 96
 
 void leds_init();

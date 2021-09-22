@@ -8,7 +8,7 @@
 #define LED_TYPE LED_STRIP_WS2812
 #define LED_GPIO 5
 
-#define MAX_TEST 3
+#define MAX_TEST 4
 
 rgb_t led_colors[CONFIG_LED_STRIP_LEN];
 
@@ -55,9 +55,9 @@ void leds_random_fill()
     for (uint8_t index = 0; index < CONFIG_LED_STRIP_LEN; index++)
     {
         rgb_t value = {
-            .r = (esp_random() % MAX_TEST) + 1,
-            .g = (esp_random() % MAX_TEST) + 1,
-            .b = (esp_random() % MAX_TEST) + 1,
+            .r = (esp_random() % MAX_TEST),
+            .g = (esp_random() % MAX_TEST),
+            .b = (esp_random() % MAX_TEST),
         };
         led_colors[index] = value;
     }

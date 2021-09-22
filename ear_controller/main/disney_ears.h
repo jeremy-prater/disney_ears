@@ -1,0 +1,1 @@
+void notify_battery_level();
