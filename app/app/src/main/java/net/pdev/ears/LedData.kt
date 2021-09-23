@@ -13,7 +13,7 @@ class LedData : ViewModel() {
     private val _ledRawData: MutableLiveData<UByteArray> by lazy {
         MutableLiveData<UByteArray>(UByteArray(maxSize))
     }
-    private val gain: MutableLiveData<Double> by lazy {
+    private val _gain: MutableLiveData<Double> by lazy {
         MutableLiveData<Double>(0.05)
     }
 
@@ -29,9 +29,9 @@ class LedData : ViewModel() {
 
         val incomingData = UByteArray(resizedData.size)
 
-        for (index in 0..resizedData.size - 1) {
+        for (index in resizedData.indices) {
             incomingData[index] =
-                (resizedData[index].toDouble() * (1 / gain.value!!)).toInt().toUByte()
+                (resizedData[index].toDouble() * (1 / _gain.value!!)).toInt().toUByte()
         }
 
         _ledRawData.value = incomingData
@@ -50,12 +50,20 @@ class LedData : ViewModel() {
 
         val incomingData = UByteArray(resizedData.size)
 
-        for (index in 0..resizedData.size - 1) {
+        for (index in resizedData.indices) {
             incomingData[index] =
-                (resizedData[index].toDouble() * gain.value!!).toInt().toUByte()
+                (resizedData[index].toDouble() * _gain.value!!).toInt().toUByte()
         }
 
         _ledRawData.value = data.toUByteArray()
         _ledEarData.value = incomingData
+    }
+
+    fun getBrightness() : LiveData<Double> {
+        return _gain
+    }
+
+    fun setBrightness(brightness: Double) {
+        _gain.value = brightness
     }
 }

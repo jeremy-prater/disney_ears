@@ -12,11 +12,18 @@ import android.view.View
 import android.view.ViewGroup
 import net.pdev.ears.databinding.EarsFragmentBinding
 import android.util.Log
+import android.widget.SeekBar
 import androidx.fragment.app.activityViewModels
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.support.v4.runOnUiThread
 import kotlin.random.Random
 import kotlin.random.nextUBytes
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.Paint
+
+import android.graphics.Paint.ANTI_ALIAS_FLAG
+import androidx.core.graphics.get
 
 
 /**
@@ -32,6 +39,7 @@ class EarsFragment : Fragment() {
     private var getEarDataTimer: Timer? = null
     private var ledStateDataTimer: Timer? = null
     private val ledModel: LedData by activityViewModels()
+    private val batteryModel: BatteryData by activityViewModels()
     private var ledData: UByteArray = UByteArray(maxSize)
     private var ledMode: LedMode = LedMode.Static
 
@@ -61,11 +69,40 @@ class EarsFragment : Fragment() {
             }
             updateEarLEDColors()
         })
+
+        ledModel.getBrightness().observe(viewLifecycleOwner, { brightness ->
+            this.binding.ledBrightness.progress = (brightness * 100).toInt()
+        })
+
+        this.binding.ledBrightness.setOnSeekBarChangeListener(object :
+            SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(
+                seek: SeekBar,
+                progress: Int, fromUser: Boolean
+            ) {
+                var brightness: Double = progress / 100.0
+                ledModel.setBrightness(brightness)
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar) {
+                ledModel.setRawData(ledData)
+            }
+        })
+
+        batteryModel.getBatteryLevel().observe(viewLifecycleOwner, { level ->
+            updateBatteryLevel(level)
+        })
+
         return binding.root
     }
 
-    fun updateBatteryLevel(level: Int) {
+
+    fun updateBatteryLevel(level: UInt) {
         Log.i("EARS", "Update battery level : $level")
+        this.binding.vBattText.text = "vBatt : $level mv"
     }
 
     fun getLEDColor(ledID: Int): ColorStateList {
@@ -198,6 +235,15 @@ class EarsFragment : Fragment() {
             ledMode = LedMode.Random
         }
 
+        this.binding.modeOff.onClick {
+            ledModeOff()
+            ledMode = LedMode.Off
+        }
+
+        this.binding.modeHappy.onClick {
+            ledModeStatic(binding.modeHappy.text)
+        }
+
         getEarDataTimer = Timer("getEarData", false)
         getEarDataTimer?.schedule(0, 500) {
             Log.i("getEarDataTimer", "getEarData tick")
@@ -215,10 +261,96 @@ class EarsFragment : Fragment() {
                         ledModeRandom()
                     }
                 }
+                LedMode.Off -> {
+                }
+                LedMode.Static -> {
+                }
             }
+        }
+    }
 
+    private fun ledModeStatic(data: CharSequence) {
+        val earLeft = textAsBitmap(data[0], 20.0f, 0xFFFFFF)
+        val earRight = textAsBitmap(data[1], 20.0f, 0xFFFFFF)
+
+        var earPos = 0
+
+        val skips = listOf<Pair<Int, Int>>(
+            Pair(0, 0),
+            Pair(1, 0),
+            Pair(6, 0),
+            Pair(7, 0),
+            Pair(0, 1),
+            Pair(7, 1),
+            Pair(0, 2),
+            Pair(7, 2),
+            Pair(0, 5),
+            Pair(7, 5),
+            Pair(0, 6),
+            Pair(7, 6),
+            Pair(0, 7),
+            Pair(1, 7),
+            Pair(6, 7),
+            Pair(7, 7),
+        )
+
+        for (x in 0..8) {
+            for (y in 0..8) {
+                val coord: Pair<Int, Int> = Pair(x, y)
+                if (coord in skips) {
+                    continue
+                }
+
+                val color = Color.valueOf(earLeft?.getPixel(x, y)!!)
+                val r: UByte = (color.red() * 0xFF).toInt().toUByte()
+                val g: UByte = (color.green() * 0xFF).toInt().toUByte()
+                val b: UByte = (color.blue() * 0xFF).toInt().toUByte()
+                ledData[earPos++] = r
+                ledData[earPos++] = g
+                ledData[earPos++] = b
+
+            }
+        }
+        for (x in 0..8) {
+            for (y in 0..8) {
+                val coord: Pair<Int, Int> = Pair(x, y)
+                if (coord in skips) {
+                    continue
+                }
+
+                val color = Color.valueOf(earRight?.getPixel(x, y)!!)
+                val r: UByte = (color.red() * 0xFF).toInt().toUByte()
+                val g: UByte = (color.green() * 0xFF).toInt().toUByte()
+                val b: UByte = (color.blue() * 0xFF).toInt().toUByte()
+                ledData[earPos++] = r
+                ledData[earPos++] = g
+                ledData[earPos++] = b
+
+            }
+        }
+        ledMode = LedMode.Static
+        ledModel.setRawData(ledData)
+    }
+
+    fun textAsBitmap(char: Char, textSize: Float, textColor: Int): Bitmap? {
+        // adapted from https://stackoverflow.com/a/8799344/1476989
+        var text = char.toString()
+        val paint = Paint(ANTI_ALIAS_FLAG)
+        paint.setTextSize(textSize)
+        paint.setColor(textColor)
+        paint.setTextAlign(Paint.Align.LEFT)
+        val baseline: Float = -paint.ascent() // ascent() is negative
+        var width = (paint.measureText(text) + 0.0f) as Int // round
+        var height = (baseline + paint.descent() + 0.0f) as Int
+        val trueWidth = width
+        if (width > height) height = width else width = height
+        val image = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
+        val canvas = Canvas(image)
+        if (text != null) {
+            canvas.drawText(text, (width / 2 - trueWidth / 2).toFloat(), baseline, paint)
         }
 
+        return Bitmap.createScaledBitmap(image, 8, 8, true)
     }
 
     override fun onDestroyView() {

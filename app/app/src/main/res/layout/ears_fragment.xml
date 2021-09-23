@@ -1044,10 +1044,48 @@
         </LinearLayout>
     </LinearLayout>
 
-    <Button
-        android:layout_width="200dp"
-        android:layout_height="100dp"
-        android:text="LED test"
-        android:id="@+id/mode_random"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:orientation="horizontal">
+
+        <SeekBar
+            android:id="@+id/ledBrightness"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:max="100"
+            android:min="0" />
+
+        <TextView
+            android:id="@+id/vBattText"
+            android:layout_width="50dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="vBatt : 7000 mv" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/mode_off"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:text="Off" />
+
+        <Button
+            android:id="@+id/mode_random"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:text="Random" />
+
+        <Button
+            android:id="@+id/mode_happy"
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            tools:text="😀😀" />
+    </LinearLayout>
 
 </LinearLayout>

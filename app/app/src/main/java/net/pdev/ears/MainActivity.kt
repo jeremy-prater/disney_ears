@@ -248,8 +248,7 @@ class MainActivity : AppCompatActivity() {
                         } else if (uuid == UUID.fromString("0000ba11-0000-1000-8000-00805f9b34fb")) {
                             Log.i("BLE", "Got battery values")
                             var bytes = characteristic.value.toUByteArray().toByteArray()
-                            val buffer = ByteBuffer.wrap(bytes)
-                            batteryModel.setBatteryLevel(buffer.getFloat())
+                            batteryModel.setBatteryLevel(littleEndianConversion(bytes).toUInt())
                         } else {
 
                         }
