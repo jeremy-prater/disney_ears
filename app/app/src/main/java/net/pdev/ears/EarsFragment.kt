@@ -1,5 +1,6 @@
 package net.pdev.ears
 
+import android.app.Activity
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
@@ -36,6 +37,14 @@ class EarsFragment : Fragment() {
         _binding = EarsFragmentBinding.inflate(inflater, container, false)
         return binding.root
 
+    }
+
+    fun updateLedColors(bytes: UByteArray)  {
+        Log.i("EARS", "Update led color : ${bytes.size}")
+    }
+
+    fun updateBatteryLevel(level: Int) {
+        Log.i("EARS", "Update battery level : $level")
     }
 
     fun getLEDColor(ledID: Int): ColorStateList {
@@ -157,6 +166,10 @@ class EarsFragment : Fragment() {
             Log.i("ears", "clicked update")
             updateEarLEDColors()
         }
+
+        (this.activity as MainActivity).getEarColors()
+        (this.activity as MainActivity).getBatteryLevel()
+
     }
 
     override fun onDestroyView() {

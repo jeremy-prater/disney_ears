@@ -27,9 +27,11 @@ import net.pdev.ears.databinding.ActivityMainBinding
 import org.jetbrains.anko.alert
 import android.app.AlertDialog
 import android.content.DialogInterface
+import androidx.navigation.NavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
+import java.util.*
 
 private const val ENABLE_BLUETOOTH_REQUEST_CODE = 1
 private const val LOCATION_PERMISSION_REQUEST_CODE = 2
@@ -85,11 +87,13 @@ class MainActivity : AppCompatActivity() {
                 stopBleScan()
             }
             with(result.device) {
-                Log.w("ScanResultAdapter", "Found device : $address")
-//                connectGatt(context, false, gattCallback)
+                Log.w("ScanResultAdapter", "Connect device : $address")
+                connectGatt(null, true, gattCallback)
             }
         }
     }
+
+    private var earsGatt: BluetoothGatt? = null
 
     private val bluetoothAdapter: BluetoothAdapter by lazy {
         val bluetoothManager = getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
@@ -98,6 +102,10 @@ class MainActivity : AppCompatActivity() {
 
     private val bleScanner by lazy {
         bluetoothAdapter.bluetoothLeScanner
+    }
+
+    private val navController: NavController by lazy {
+        findNavController(R.id.nav_host_fragment_content_main)
     }
 
     private val scanSettings = ScanSettings.Builder()
@@ -125,20 +133,107 @@ class MainActivity : AppCompatActivity() {
                 scanResults[indexQuery] = result
                 scanResultAdapter.notifyItemChanged(indexQuery)
             } else {
-                with(result.device) {
-                    Log.i("BLE Scan", "Found BLE device! Name: ${name ?: "Unnamed"}, address: $address")
+                if (result.device.name == "Disney BLEars") {
+                    with(result.device) {
+                        Log.i(
+                            "BLE Scan",
+                            "Found BLE device! Name: ${name ?: "Unnamed"}, address: $address"
+                        )
+                    }
+                    scanResults.add(result)
+                    scanResultAdapter.notifyItemInserted(scanResults.size - 1)
                 }
-                scanResults.add(result)
-                scanResultAdapter.notifyItemInserted(scanResults.size - 1)
             }
         }
 
         override fun onScanFailed(errorCode: Int) {
-            Log.e("BLE Scan","onScanFailed: code $errorCode")
+            Log.e("BLE Scan", "onScanFailed: code $errorCode")
         }
     }
 
+    public fun getEarColors() {
+        if (earsGatt == null) {
+            return
+        }
+        earsGatt?.services?.forEach { service ->
+            // Service : 0000ea45-0000-1000-8000-00805f9b34fb
+            if (service.uuid == UUID.fromString("0000ea45-0000-1000-8000-00805f9b34fb")) {
+                service.characteristics.forEach { characteristic ->
+                    // LED : 00001ed5-0000-1000-8000-00805f9b34fb
+                    if (characteristic.uuid == UUID.fromString("00001ed5-0000-1000-8000-00805f9b34fb")) {
+                        if (earsGatt?.readCharacteristic(characteristic) == false) {
+                            Log.w("BLE", "Failed to read ear led characteristic")
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    public fun getBatteryLevel() {
+        if (earsGatt == null) {
+            return
+        }
+        earsGatt?.services?.forEach { service ->
+            // Service : 0000ea45-0000-1000-8000-00805f9b34fb
+            if (service.uuid == UUID.fromString("0000ea45-0000-1000-8000-00805f9b34fb")) {
+                service.characteristics.forEach { characteristic ->
+                    // Battery : 0000ba11-0000-1000-8000-00805f9b34fb
+                    if (characteristic.uuid == UUID.fromString("0000ba11-0000-1000-8000-00805f9b34fb")) {
+                        if (earsGatt?.readCharacteristic(characteristic) == false) {
+                            Log.w("BLE", "Failed to read battery characteristic")
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    fun littleEndianConversion(bytes: ByteArray): Int {
+        var result = 0
+        for (i in bytes.indices) {
+            result = result or (bytes[i].toInt() shl 8 * i)
+        }
+        return result
+    }
+
     private val gattCallback = object : BluetoothGattCallback() {
+        override fun onCharacteristicRead(
+            gatt: BluetoothGatt,
+            characteristic: BluetoothGattCharacteristic,
+            status: Int
+        ) {
+            with(characteristic) {
+                when (status) {
+                    BluetoothGatt.GATT_SUCCESS -> {
+                        if (uuid == UUID.fromString("00001ed5-0000-1000-8000-00805f9b34fb")) {
+                            Log.i("BLE", "Read LED values")
+                            (supportFragmentManager.findFragmentById(R.id.earsFragment) as EarsFragment).updateLedColors(
+                                characteristic.value.toUByteArray()
+                            )
+                        } else if (uuid == UUID.fromString("00001ed5-0000-1000-8000-00805f9b34fb")) {
+                            (supportFragmentManager.findFragmentById(R.id.earsFragment) as EarsFragment).updateBatteryLevel(
+                                littleEndianConversion(
+                                    characteristic.value
+                                )
+                            )
+                        } else {
+
+                        }
+                    }
+                    BluetoothGatt.GATT_READ_NOT_PERMITTED -> {
+                        Log.e("BluetoothGattCallback", "Read not permitted for $uuid!")
+                    }
+                    else -> {
+                        Log.e(
+                            "BluetoothGattCallback",
+                            "Characteristic read failed for $uuid, error: $status"
+                        )
+                    }
+                }
+            }
+        }
+
         override fun onConnectionStateChange(gatt: BluetoothGatt, status: Int, newState: Int) {
             val deviceAddress = gatt.device.address
 
@@ -146,8 +241,22 @@ class MainActivity : AppCompatActivity() {
                 if (newState == BluetoothProfile.STATE_CONNECTED) {
                     Log.w("BluetoothGattCallback", "Successfully connected to $deviceAddress")
                     // TODO: Store a reference to BluetoothGatt
+
+                    earsGatt = gatt
+
+                    runOnUiThread(Runnable {
+                        if (earsGatt?.discoverServices() == true) {
+                            Log.i("BluetoothGattCallback", "Gatt Discovery")
+                            navController.navigate(R.id.earsFragment)
+                        } else {
+                            Log.w("BluetoothGattCallback", "failed to gatt discovery")
+                            earsGatt?.disconnect()
+                            earsGatt?.close()
+                        }
+                    })
                 } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
                     Log.w("BluetoothGattCallback", "Successfully disconnected from $deviceAddress")
+                    navController.navigate(R.id.earsFragment)
                     gatt.close()
                 }
             } else {
@@ -246,6 +355,14 @@ class MainActivity : AppCompatActivity() {
         ActivityCompat.requestPermissions(this, arrayOf(permission), requestCode)
     }
 
+    override fun onStart() {
+        super.onStart()
+
+//        navController.navigate(R.id.earsFragment)
+
+        startBleScan()
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -254,7 +371,6 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.toolbar)
 
-        val navController = findNavController(R.id.nav_host_fragment_content_main)
         appBarConfiguration = AppBarConfiguration(navController.graph)
         setupActionBarWithNavController(navController, appBarConfiguration)
 
@@ -283,7 +399,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onSupportNavigateUp(): Boolean {
-        val navController = findNavController(R.id.nav_host_fragment_content_main)
         return navController.navigateUp(appBarConfiguration)
                 || super.onSupportNavigateUp()
     }

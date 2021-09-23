@@ -32,6 +32,7 @@ class ScanFragment : Fragment() {
     ): View? {
 
         _binding = ScanFragmentBinding.inflate(inflater, container, false)
+        setupRecyclerView()
         return binding.root
 
     }
@@ -46,7 +47,7 @@ class ScanFragment : Fragment() {
 
     private fun setupRecyclerView() {
         binding.scanResultsRecyclerView.apply {
-            adapter = this.adapter
+            adapter = (activity as MainActivity).scanResultAdapter
 
             layoutManager = LinearLayoutManager(
                 this@ScanFragment.context,
