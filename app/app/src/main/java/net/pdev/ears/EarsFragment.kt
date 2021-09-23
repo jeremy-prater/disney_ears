@@ -1,11 +1,8 @@
 package net.pdev.ears
 
-import android.app.Activity
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.drawable.GradientDrawable
-import android.graphics.drawable.ShapeDrawable
-import android.hardware.camera2.params.ColorSpaceTransform
 import android.os.Bundle
 import java.util.Timer
 import kotlin.concurrent.schedule
@@ -13,13 +10,11 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.fragment.findNavController
 import net.pdev.ears.databinding.EarsFragmentBinding
-import org.jetbrains.anko.sdk27.coroutines.onClick
 import android.util.Log
 import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
-import kotlin.math.max
+import org.jetbrains.anko.sdk27.coroutines.onClick
+import org.jetbrains.anko.support.v4.runOnUiThread
 import kotlin.random.Random
 import kotlin.random.nextUBytes
 
@@ -35,8 +30,16 @@ class EarsFragment : Fragment() {
     private val maxSize = 3 * 96
     private var downloadedLedData = false
     private var getEarDataTimer: Timer? = null
+    private var ledStateDataTimer: Timer? = null
     private val ledModel: LedData by activityViewModels()
     private var ledData: UByteArray = UByteArray(maxSize)
+    private var ledMode: LedMode = LedMode.Static
+
+    enum class LedMode {
+        Off,
+        Static,
+        Random,
+    }
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -70,9 +73,9 @@ class EarsFragment : Fragment() {
         val gID = (ledID * 3) + 1;
         val bID = (ledID * 3) + 2;
 
-        val r = if (ledData.size < rID) ledData[rID].toInt() else 0
-        val g = if (ledData.size < gID) ledData[gID].toInt() else 0
-        val b = if (ledData.size < bID) ledData[bID].toInt() else 0
+        val r = if (rID < ledData.size) ledData[rID].toInt() else 0
+        val g = if (gID < ledData.size) ledData[gID].toInt() else 0
+        val b = if (bID < ledData.size) ledData[bID].toInt() else 0
 
         return ColorStateList.valueOf(
             Color.rgb(r, g, b)
@@ -179,12 +182,20 @@ class EarsFragment : Fragment() {
         (this.binding.led95.drawable!! as GradientDrawable).color = getLEDColor(95);
     }
 
+    private fun ledModeOff() {
+        ledModel.setRawData(UByteArray(maxSize))
+    }
+
+    private fun ledModeRandom() {
+        ledModel.setRawData(Random.nextUBytes(maxSize))
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        this.binding.testLED.onClick {
-            Log.i("ears", "clicked random")
-            ledModel.setRawData(Random.nextUBytes(maxSize))
+        this.binding.modeRandom.onClick {
+            ledModeRandom()
+            ledMode = LedMode.Random
         }
 
         getEarDataTimer = Timer("getEarData", false)
@@ -193,7 +204,21 @@ class EarsFragment : Fragment() {
             (activity as MainActivity).getEarColors()
         }
 
-        (this.activity as MainActivity).getBatteryLevel()
+        ledStateDataTimer = Timer("updateLEDState", false)
+        ledStateDataTimer?.schedule(0, 3000) {
+//            Log.i("getEarDataTimer", "getEarData tick")
+//            (activity as MainActivity).getBatteryLevel()
+
+            when (ledMode) {
+                LedMode.Random -> {
+                    runOnUiThread {
+                        ledModeRandom()
+                    }
+                }
+            }
+
+        }
+
     }
 
     override fun onDestroyView() {

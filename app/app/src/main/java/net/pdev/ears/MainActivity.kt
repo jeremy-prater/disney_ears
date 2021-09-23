@@ -32,6 +32,7 @@ import androidx.navigation.NavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
+import java.nio.ByteBuffer
 import java.util.*
 
 private const val ENABLE_BLUETOOTH_REQUEST_CODE = 1
@@ -43,6 +44,7 @@ class MainActivity : AppCompatActivity() {
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
     private val ledModel: LedData by viewModels()
+    private val batteryModel: BatteryData by viewModels()
 
 //    private var scanning = false
 //    private val handler = Handler()
@@ -241,14 +243,13 @@ class MainActivity : AppCompatActivity() {
                 when (status) {
                     BluetoothGatt.GATT_SUCCESS -> {
                         if (uuid == UUID.fromString("00001ed5-0000-1000-8000-00805f9b34fb")) {
-                            Log.i("BLE", "Read LED values")
+                            Log.i("BLE", "Got LED values")
                             ledModel.setLEDData(characteristic.value.toUByteArray())
                         } else if (uuid == UUID.fromString("0000ba11-0000-1000-8000-00805f9b34fb")) {
-                            (supportFragmentManager.findFragmentById(R.id.earsFragment) as EarsFragment).updateBatteryLevel(
-                                littleEndianConversion(
-                                    characteristic.value
-                                )
-                            )
+                            Log.i("BLE", "Got battery values")
+                            var bytes = characteristic.value.toUByteArray().toByteArray()
+                            val buffer = ByteBuffer.wrap(bytes)
+                            batteryModel.setBatteryLevel(buffer.getFloat())
                         } else {
 
                         }
@@ -298,7 +299,6 @@ class MainActivity : AppCompatActivity() {
             if (status == BluetoothGatt.GATT_SUCCESS) {
                 if (newState == BluetoothProfile.STATE_CONNECTED) {
                     Log.w("BluetoothGattCallback", "Successfully connected to $deviceAddress")
-                    // TODO: Store a reference to BluetoothGatt
 
                     earsGatt = gatt
 

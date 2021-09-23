@@ -5,8 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class BatteryData : ViewModel() {
-    private val _batteryLevel: MutableLiveData<Double> by lazy {
-        MutableLiveData<Double>(0.0)
+    private val _batteryLevel: MutableLiveData<Float> by lazy {
+        MutableLiveData<Float>(0F)
     }
 
     private val _batteryColor: MutableLiveData<UInt> by lazy {
@@ -17,11 +17,11 @@ class BatteryData : ViewModel() {
         return _batteryColor
     }
 
-    fun getBatteryLevel(): LiveData<Double> {
+    fun getBatteryLevel(): LiveData<Float> {
         return _batteryLevel
     }
 
-    fun setBatteryLevel(level: Double) {
+    fun setBatteryLevel(level: Float) {
         _batteryLevel.value = level
     }
 }
