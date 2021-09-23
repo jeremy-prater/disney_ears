@@ -18,6 +18,7 @@ import org.jetbrains.anko.act
 /**
  * A simple [Fragment] subclass as the default destination in the navigation.
  */
+@kotlin.ExperimentalUnsignedTypes
 class ScanFragment : Fragment() {
 
     private var _binding: ScanFragmentBinding? = null
@@ -27,8 +28,8 @@ class ScanFragment : Fragment() {
     private val binding get() = _binding!!
 
     override fun onCreateView(
-            inflater: LayoutInflater, container: ViewGroup?,
-            savedInstanceState: Bundle?
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
     ): View? {
 
         _binding = ScanFragmentBinding.inflate(inflater, container, false)

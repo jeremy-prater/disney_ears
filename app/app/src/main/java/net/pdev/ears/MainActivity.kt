@@ -27,6 +27,7 @@ import net.pdev.ears.databinding.ActivityMainBinding
 import org.jetbrains.anko.alert
 import android.app.AlertDialog
 import android.content.DialogInterface
+import androidx.activity.viewModels
 import androidx.navigation.NavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -36,10 +37,12 @@ import java.util.*
 private const val ENABLE_BLUETOOTH_REQUEST_CODE = 1
 private const val LOCATION_PERMISSION_REQUEST_CODE = 2
 
+@kotlin.ExperimentalUnsignedTypes
 class MainActivity : AppCompatActivity() {
 
     private lateinit var appBarConfiguration: AppBarConfiguration
     private lateinit var binding: ActivityMainBinding
+    private val ledModel: LedData by viewModels()
 
 //    private var scanning = false
 //    private val handler = Handler()
@@ -80,7 +83,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private val scanResults = mutableListOf<ScanResult>()
-    public val scanResultAdapter: ScanResultAdapter by lazy {
+    val scanResultAdapter: ScanResultAdapter by lazy {
         ScanResultAdapter(scanResults) { result ->
             // User tapped on a scan result
             if (isScanning) {
@@ -151,7 +154,27 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    public fun getEarColors() {
+    fun setEarColors(led_data: UByteArray) {
+        if (earsGatt == null) {
+            return
+        }
+        earsGatt?.services?.forEach { service ->
+            // Service : 0000ea45-0000-1000-8000-00805f9b34fb
+            if (service.uuid == UUID.fromString("0000ea45-0000-1000-8000-00805f9b34fb")) {
+                service.characteristics.forEach { characteristic ->
+                    // LED : 00001ed5-0000-1000-8000-00805f9b34fb
+                    if (characteristic.uuid == UUID.fromString("00001ed5-0000-1000-8000-00805f9b34fb")) {
+                        characteristic.value = led_data.toByteArray()
+                        if (earsGatt?.writeCharacteristic(characteristic) == false) {
+                            Log.w("BLE", "Failed to write ear led characteristic")
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    fun getEarColors() {
         if (earsGatt == null) {
             return
         }
@@ -170,7 +193,18 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    public fun getBatteryLevel() {
+    fun disconnect() {
+        if (earsGatt == null) {
+            return
+        }
+        Log.i("BLE", "Disconnecting BLE")
+        earsGatt?.disconnect()
+        earsGatt?.close()
+        earsGatt = null
+    }
+
+
+    fun getBatteryLevel() {
         if (earsGatt == null) {
             return
         }
@@ -208,10 +242,8 @@ class MainActivity : AppCompatActivity() {
                     BluetoothGatt.GATT_SUCCESS -> {
                         if (uuid == UUID.fromString("00001ed5-0000-1000-8000-00805f9b34fb")) {
                             Log.i("BLE", "Read LED values")
-                            (supportFragmentManager.findFragmentById(R.id.earsFragment) as EarsFragment).updateLedColors(
-                                characteristic.value.toUByteArray()
-                            )
-                        } else if (uuid == UUID.fromString("00001ed5-0000-1000-8000-00805f9b34fb")) {
+                            ledModel.setLEDData(characteristic.value.toUByteArray())
+                        } else if (uuid == UUID.fromString("0000ba11-0000-1000-8000-00805f9b34fb")) {
                             (supportFragmentManager.findFragmentById(R.id.earsFragment) as EarsFragment).updateBatteryLevel(
                                 littleEndianConversion(
                                     characteristic.value
@@ -234,6 +266,32 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        override fun onCharacteristicWrite(
+            gatt: BluetoothGatt,
+            characteristic: BluetoothGattCharacteristic,
+            status: Int
+        ) {
+            with(characteristic) {
+                when (status) {
+                    BluetoothGatt.GATT_SUCCESS -> {
+                        Log.i("BluetoothGattCallback", "Wrote to characteristic $uuid");
+                    }
+                    BluetoothGatt.GATT_INVALID_ATTRIBUTE_LENGTH -> {
+                        Log.e("BluetoothGattCallback", "Write exceeded connection ATT MTU!")
+                    }
+                    BluetoothGatt.GATT_WRITE_NOT_PERMITTED -> {
+                        Log.e("BluetoothGattCallback", "Write not permitted for $uuid!")
+                    }
+                    else -> {
+                        Log.e(
+                            "BluetoothGattCallback",
+                            "Characteristic write failed for $uuid, error: $status"
+                        )
+                    }
+                }
+            }
+        }
+
         override fun onConnectionStateChange(gatt: BluetoothGatt, status: Int, newState: Int) {
             val deviceAddress = gatt.device.address
 
@@ -244,7 +302,7 @@ class MainActivity : AppCompatActivity() {
 
                     earsGatt = gatt
 
-                    runOnUiThread(Runnable {
+                    runOnUiThread {
                         if (earsGatt?.discoverServices() == true) {
                             Log.i("BluetoothGattCallback", "Gatt Discovery")
                             navController.navigate(R.id.earsFragment)
@@ -253,7 +311,7 @@ class MainActivity : AppCompatActivity() {
                             earsGatt?.disconnect()
                             earsGatt?.close()
                         }
-                    })
+                    }
                 } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
                     Log.w("BluetoothGattCallback", "Successfully disconnected from $deviceAddress")
                     navController.navigate(R.id.earsFragment)
@@ -380,6 +438,11 @@ class MainActivity : AppCompatActivity() {
             Log.i("main", "clicked scan...")
             startBleScan()
         }
+
+        ledModel.getLEDData().observe(this, { colors ->
+            // update ears
+            setEarColors(colors)
+        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

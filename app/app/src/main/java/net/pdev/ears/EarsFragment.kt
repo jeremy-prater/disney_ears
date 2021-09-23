@@ -7,6 +7,8 @@ import android.graphics.drawable.GradientDrawable
 import android.graphics.drawable.ShapeDrawable
 import android.hardware.camera2.params.ColorSpaceTransform
 import android.os.Bundle
+import java.util.Timer
+import kotlin.concurrent.schedule
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -15,15 +17,26 @@ import androidx.navigation.fragment.findNavController
 import net.pdev.ears.databinding.EarsFragmentBinding
 import org.jetbrains.anko.sdk27.coroutines.onClick
 import android.util.Log
+import androidx.fragment.app.activityViewModels
+import androidx.lifecycle.Observer
+import kotlin.math.max
 import kotlin.random.Random
+import kotlin.random.nextUBytes
 
 
 /**
  * A simple [Fragment] subclass as the second destination in the navigation.
  */
+
+@kotlin.ExperimentalUnsignedTypes
 class EarsFragment : Fragment() {
 
     private var _binding: EarsFragmentBinding? = null
+    private val maxSize = 3 * 96
+    private var downloadedLedData = false
+    private var getEarDataTimer: Timer? = null
+    private val ledModel: LedData by activityViewModels()
+    private var ledData: UByteArray = UByteArray(maxSize)
 
     // This property is only valid between onCreateView and
     // onDestroyView.
@@ -33,14 +46,19 @@ class EarsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
+        downloadedLedData = false
         _binding = EarsFragmentBinding.inflate(inflater, container, false)
+
+        ledModel.getRawData().observe(viewLifecycleOwner, { bytes ->
+            Log.i("EARS", "Update led color : ${bytes.size / 3} leds")
+            ledData = bytes
+            if (getEarDataTimer != null) {
+                getEarDataTimer?.cancel()
+                getEarDataTimer = null
+            }
+            updateEarLEDColors()
+        })
         return binding.root
-
-    }
-
-    fun updateLedColors(bytes: UByteArray)  {
-        Log.i("EARS", "Update led color : ${bytes.size}")
     }
 
     fun updateBatteryLevel(level: Int) {
@@ -48,18 +66,20 @@ class EarsFragment : Fragment() {
     }
 
     fun getLEDColor(ledID: Int): ColorStateList {
+        val rID = (ledID * 3);
+        val gID = (ledID * 3) + 1;
+        val bID = (ledID * 3) + 2;
 
-        // Just randomize it for now
+        val r = if (ledData.size < rID) ledData[rID].toInt() else 0
+        val g = if (ledData.size < gID) ledData[gID].toInt() else 0
+        val b = if (ledData.size < bID) ledData[bID].toInt() else 0
+
         return ColorStateList.valueOf(
-            Color.rgb(
-                Random.nextInt(256),
-                Random.nextInt(256),
-                Random.nextInt(256)
-            )
+            Color.rgb(r, g, b)
         )
     }
 
-    fun updateEarLEDColors() {
+    private fun updateEarLEDColors() {
         Log.i("LEDS", "update")
         (this.binding.led0.drawable!! as GradientDrawable).color = getLEDColor(0);
         (this.binding.led1.drawable!! as GradientDrawable).color = getLEDColor(1);
@@ -163,17 +183,22 @@ class EarsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         this.binding.testLED.onClick {
-            Log.i("ears", "clicked update")
-            updateEarLEDColors()
+            Log.i("ears", "clicked random")
+            ledModel.setRawData(Random.nextUBytes(maxSize))
         }
 
-        (this.activity as MainActivity).getEarColors()
-        (this.activity as MainActivity).getBatteryLevel()
+        getEarDataTimer = Timer("getEarData", false)
+        getEarDataTimer?.schedule(0, 500) {
+            Log.i("getEarDataTimer", "getEarData tick")
+            (activity as MainActivity).getEarColors()
+        }
 
+        (this.activity as MainActivity).getBatteryLevel()
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
+        (this.activity as MainActivity).disconnect()
         _binding = null
     }
 }
