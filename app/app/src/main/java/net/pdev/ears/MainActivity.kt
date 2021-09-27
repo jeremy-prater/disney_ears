@@ -225,7 +225,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun littleEndianConversion(bytes: ByteArray): Int {
+    fun littleEndianConversion(bytes: UByteArray): Int {
         var result = 0
         for (i in bytes.indices) {
             result = result or (bytes[i].toInt() shl 8 * i)
@@ -244,11 +244,15 @@ class MainActivity : AppCompatActivity() {
                     BluetoothGatt.GATT_SUCCESS -> {
                         if (uuid == UUID.fromString("00001ed5-0000-1000-8000-00805f9b34fb")) {
                             Log.i("BLE", "Got LED values")
-                            ledModel.setLEDData(characteristic.value.toUByteArray())
+                            runOnUiThread {
+                                ledModel.setLEDData(characteristic.value.toUByteArray())
+                            }
                         } else if (uuid == UUID.fromString("0000ba11-0000-1000-8000-00805f9b34fb")) {
                             Log.i("BLE", "Got battery values")
-                            var bytes = characteristic.value.toUByteArray().toByteArray()
-                            batteryModel.setBatteryLevel(littleEndianConversion(bytes).toUInt())
+                            var bytes = characteristic.value.toUByteArray()
+                            runOnUiThread {
+                                batteryModel.setBatteryLevel(littleEndianConversion(bytes).toUInt())
+                            }
                         } else {
 
                         }
@@ -440,7 +444,9 @@ class MainActivity : AppCompatActivity() {
 
         ledModel.getLEDData().observe(this, { colors ->
             // update ears
-            setEarColors(colors)
+            runOnUiThread {
+                setEarColors(colors)
+            }
         })
     }
 

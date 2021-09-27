@@ -1,7 +1,8 @@
 package net.pdev.ears
 
+import android.R.attr
 import android.content.res.ColorStateList
-import android.graphics.Color
+import android.graphics.*
 import android.graphics.drawable.GradientDrawable
 import android.os.Bundle
 import java.util.Timer
@@ -18,12 +19,16 @@ import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.support.v4.runOnUiThread
 import kotlin.random.Random
 import kotlin.random.nextUBytes
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.Paint
 
 import android.graphics.Paint.ANTI_ALIAS_FLAG
 import androidx.core.graphics.get
+import android.R.attr.bitmap
+import android.graphics.Bitmap
+import android.text.Layout
+
+import android.text.StaticLayout
+
+import android.text.TextPaint
 
 
 /**
@@ -81,7 +86,9 @@ class EarsFragment : Fragment() {
                 progress: Int, fromUser: Boolean
             ) {
                 var brightness: Double = progress / 100.0
+                Log.i("LEDBright", "${progress}%")
                 ledModel.setBrightness(brightness)
+                binding.ledBrightnessLevel.text = "${progress}%"
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
@@ -235,13 +242,18 @@ class EarsFragment : Fragment() {
             ledMode = LedMode.Random
         }
 
+        this.binding.modeStatic.onClick {
+            ledMode = LedMode.Static
+        }
+
         this.binding.modeOff.onClick {
             ledModeOff()
             ledMode = LedMode.Off
         }
 
         this.binding.modeHappy.onClick {
-            ledModeStatic(binding.modeHappy.text)
+//            ledModeStatic("\uD83D\uDE00\uD83D\uDE00")
+            ledModeStatic("07")
         }
 
         getEarDataTimer = Timer("getEarData", false)
@@ -253,7 +265,7 @@ class EarsFragment : Fragment() {
         ledStateDataTimer = Timer("updateLEDState", false)
         ledStateDataTimer?.schedule(0, 3000) {
 //            Log.i("getEarDataTimer", "getEarData tick")
-//            (activity as MainActivity).getBatteryLevel()
+            (activity as MainActivity).getBatteryLevel()
 
             when (ledMode) {
                 LedMode.Random -> {
@@ -270,8 +282,10 @@ class EarsFragment : Fragment() {
     }
 
     private fun ledModeStatic(data: CharSequence) {
-        val earLeft = textAsBitmap(data[0], 20.0f, 0xFFFFFF)
-        val earRight = textAsBitmap(data[1], 20.0f, 0xFFFFFF)
+        val width = 64
+        val height = 64
+        val earLeft = drawText(data[0].toString(), width, height)
+        val earRight = drawText(data[1].toString(), width, height)
 
         var earPos = 0
 
@@ -294,8 +308,8 @@ class EarsFragment : Fragment() {
             Pair(7, 7),
         )
 
-        for (x in 0..8) {
-            for (y in 0..8) {
+        for (y in 0..7) {
+            for (x in 0..7) {
                 val coord: Pair<Int, Int> = Pair(x, y)
                 if (coord in skips) {
                     continue
@@ -308,11 +322,11 @@ class EarsFragment : Fragment() {
                 ledData[earPos++] = r
                 ledData[earPos++] = g
                 ledData[earPos++] = b
-
             }
         }
-        for (x in 0..8) {
-            for (y in 0..8) {
+
+        for (y in 0..7) {
+            for (x in 0..7) {
                 val coord: Pair<Int, Int> = Pair(x, y)
                 if (coord in skips) {
                     continue
@@ -325,32 +339,50 @@ class EarsFragment : Fragment() {
                 ledData[earPos++] = r
                 ledData[earPos++] = g
                 ledData[earPos++] = b
-
             }
         }
         ledMode = LedMode.Static
         ledModel.setRawData(ledData)
     }
 
-    fun textAsBitmap(char: Char, textSize: Float, textColor: Int): Bitmap? {
-        // adapted from https://stackoverflow.com/a/8799344/1476989
-        var text = char.toString()
-        val paint = Paint(ANTI_ALIAS_FLAG)
-        paint.setTextSize(textSize)
-        paint.setColor(textColor)
-        paint.setTextAlign(Paint.Align.LEFT)
-        val baseline: Float = -paint.ascent() // ascent() is negative
-        var width = (paint.measureText(text) + 0.0f) as Int // round
-        var height = (baseline + paint.descent() + 0.0f) as Int
-        val trueWidth = width
-        if (width > height) height = width else width = height
-        val image = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
-        val canvas = Canvas(image)
-        if (text != null) {
-            canvas.drawText(text, (width / 2 - trueWidth / 2).toFloat(), baseline, paint)
-        }
+    fun drawText(text: String?, textWidth: Int, textSize: Int): Bitmap? {
+// Get text dimensions
+        val textPaint = TextPaint(
+            ANTI_ALIAS_FLAG
+                    or Paint.LINEAR_TEXT_FLAG
+        )
+        textPaint.style = Paint.Style.FILL
+        textPaint.color = Color.WHITE
+        textPaint.textSize = textSize.toFloat()
+        val mTextLayout = StaticLayout(
+            text, textPaint,
+            textWidth, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, true
+        )
 
-        return Bitmap.createScaledBitmap(image, 8, 8, true)
+// Create bitmap and canvas to draw to
+        val b = Bitmap.createBitmap(textWidth, mTextLayout.height, Bitmap.Config.ARGB_8888)
+        val c = Canvas(b)
+
+// Draw background
+        val paint = Paint(
+            (ANTI_ALIAS_FLAG
+                    or Paint.LINEAR_TEXT_FLAG)
+        )
+        paint.style = Paint.Style.FILL
+        paint.color = Color.BLACK
+        c.drawPaint(paint)
+
+// Draw text
+        c.save()
+        c.translate(0F, 0F)
+        mTextLayout.draw(c)
+        c.restore()
+
+// do a max() down sample
+         
+        var finalBitmap = Bitmap.createScaledBitmap(b, 8, 8, true)
+
+        return finalBitmap
     }
 
     override fun onDestroyView() {
