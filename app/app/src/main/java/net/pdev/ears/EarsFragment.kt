@@ -19,6 +19,7 @@ import org.jetbrains.anko.sdk27.coroutines.onClick
 import org.jetbrains.anko.support.v4.runOnUiThread
 import kotlin.random.Random
 import kotlin.random.nextUBytes
+import androidx.emoji.text.EmojiCompat
 
 import android.graphics.Paint.ANTI_ALIAS_FLAG
 import androidx.core.graphics.get
@@ -29,6 +30,10 @@ import android.text.Layout
 import android.text.StaticLayout
 
 import android.text.TextPaint
+import java.lang.Integer.min
+import kotlin.math.abs
+import kotlin.math.max
+import kotlin.math.pow
 
 
 /**
@@ -47,6 +52,7 @@ class EarsFragment : Fragment() {
     private val batteryModel: BatteryData by activityViewModels()
     private var ledData: UByteArray = UByteArray(maxSize)
     private var ledMode: LedMode = LedMode.Static
+    private var staticMode: Int = 0
 
     enum class LedMode {
         Off,
@@ -122,7 +128,7 @@ class EarsFragment : Fragment() {
         val b = if (bID < ledData.size) ledData[bID].toInt() else 0
 
         return ColorStateList.valueOf(
-            Color.rgb(r, g, b)
+            Color.rgb(r.toInt(), g.toInt(), b.toInt())
         )
     }
 
@@ -252,8 +258,28 @@ class EarsFragment : Fragment() {
         }
 
         this.binding.modeHappy.onClick {
-//            ledModeStatic("\uD83D\uDE00\uD83D\uDE00")
-            ledModeStatic("07")
+            when(staticMode) {
+                1 -> ledModeStatic("❤", "❤") // ❤
+                2 -> ledModeStatic("H", "I") // HI
+                3 -> ledModeStatic("\uD83C\uDF34", "\uD83C\uDF34") // 🌴
+                4 -> ledModeStatic("\uD83C\uDF4D", "\uD83C\uDF4D") // 🍍
+                5 -> ledModeStatic("\uD83C\uDF44", "\uD83C\uDF44") // 🍄
+                6 -> ledModeStatic("\uD83D\uDCA5","\uD83D\uDCA5") // 💥
+                7 -> ledModeStatic("\uD83C\uDF08","\uD83C\uDF08") // 🌈
+                8 -> ledModeStatic("⭐","⭐") // ⭐
+                9 -> ledModeStatic("\uD83D\uDD25","\uD83D\uDD25") // 🔥
+                10 -> ledModeStatic("☢","☢") // ☢
+                11 -> ledModeStatic("↘","↘") // ↘
+                12 -> ledModeStatic("↖","↖") // ↖
+                13 -> ledModeStatic("\uD83D\uDD05","\uD83D\uDD05") // 🔅
+                14 -> ledModeStatic("❓","❓") // ❓
+                15 -> ledModeStatic("❗","❗") // ❗
+            else -> {
+                    ledModeStatic("⚠", "⚠") // ⚠
+                    staticMode = 0
+                }
+            }
+            staticMode += 1
         }
 
         getEarDataTimer = Timer("getEarData", false)
@@ -281,11 +307,13 @@ class EarsFragment : Fragment() {
         }
     }
 
-    private fun ledModeStatic(data: CharSequence) {
-        val width = 64
-        val height = 64
-        val earLeft = drawText(data[0].toString(), width, height)
-        val earRight = drawText(data[1].toString(), width, height)
+    private fun ledModeStatic(lData: CharSequence, rData: CharSequence) {
+        val width = 2048
+        val height = width
+        val lEmoji = EmojiCompat.get().process(lData)
+        val rEmoji = EmojiCompat.get().process(rData)
+        val earLeft = drawText(lEmoji, width, height)
+        val earRight = drawText(rEmoji, width, height)
 
         var earPos = 0
 
@@ -308,6 +336,10 @@ class EarsFragment : Fragment() {
             Pair(7, 7),
         )
 
+        val rGain = 1.5
+        val gGain = 1.2
+        val bGain = 0.8
+
         for (y in 0..7) {
             for (x in 0..7) {
                 val coord: Pair<Int, Int> = Pair(x, y)
@@ -319,14 +351,14 @@ class EarsFragment : Fragment() {
                 val r: UByte = (color.red() * 0xFF).toInt().toUByte()
                 val g: UByte = (color.green() * 0xFF).toInt().toUByte()
                 val b: UByte = (color.blue() * 0xFF).toInt().toUByte()
-                ledData[earPos++] = r
-                ledData[earPos++] = g
-                ledData[earPos++] = b
+                ledData[earPos++] = min((r.toDouble() * rGain).toInt(), 0xFF).toUByte()
+                ledData[earPos++] = min((g.toDouble() * gGain).toInt(), 0xFF).toUByte()
+                ledData[earPos++] = min((b.toDouble() * bGain).toInt(), 0xFF).toUByte()
             }
         }
 
         for (y in 0..7) {
-            for (x in 0..7) {
+            for (x in 7 downTo 0) {
                 val coord: Pair<Int, Int> = Pair(x, y)
                 if (coord in skips) {
                     continue
@@ -336,31 +368,18 @@ class EarsFragment : Fragment() {
                 val r: UByte = (color.red() * 0xFF).toInt().toUByte()
                 val g: UByte = (color.green() * 0xFF).toInt().toUByte()
                 val b: UByte = (color.blue() * 0xFF).toInt().toUByte()
-                ledData[earPos++] = r
-                ledData[earPos++] = g
-                ledData[earPos++] = b
+                ledData[earPos++] = min((r.toDouble() * rGain).toInt(), 0xFF).toUByte()
+                ledData[earPos++] = min((g.toDouble() * gGain).toInt(), 0xFF).toUByte()
+                ledData[earPos++] = min((b.toDouble() * bGain).toInt(), 0xFF).toUByte()
             }
         }
         ledMode = LedMode.Static
         ledModel.setRawData(ledData)
     }
 
-    fun drawText(text: String?, textWidth: Int, textSize: Int): Bitmap? {
-// Get text dimensions
-        val textPaint = TextPaint(
-            ANTI_ALIAS_FLAG
-                    or Paint.LINEAR_TEXT_FLAG
-        )
-        textPaint.style = Paint.Style.FILL
-        textPaint.color = Color.WHITE
-        textPaint.textSize = textSize.toFloat()
-        val mTextLayout = StaticLayout(
-            text, textPaint,
-            textWidth, Layout.Alignment.ALIGN_CENTER, 1.0f, 0.0f, true
-        )
-
+    fun drawText(text: CharSequence, textWidth: Int, textHeight: Int): Bitmap? {
 // Create bitmap and canvas to draw to
-        val b = Bitmap.createBitmap(textWidth, mTextLayout.height, Bitmap.Config.ARGB_8888)
+        val b = Bitmap.createBitmap(textWidth, textHeight, Bitmap.Config.ARGB_8888)
         val c = Canvas(b)
 
 // Draw background
@@ -368,21 +387,79 @@ class EarsFragment : Fragment() {
             (ANTI_ALIAS_FLAG
                     or Paint.LINEAR_TEXT_FLAG)
         )
-        paint.style = Paint.Style.FILL
-        paint.color = Color.BLACK
-        c.drawPaint(paint)
+//        paint.style = Paint.Style.FILL
+        paint.color = Color.WHITE
+        paint.textAlign = Paint.Align.CENTER
 
-// Draw text
-        c.save()
-        c.translate(0F, 0F)
-        mTextLayout.draw(c)
-        c.restore()
+        var scale = 1.0f
+        var sized = false
+        val bounds = Rect()
+        val tolerance = 0.1f
+        var step = 0.05f;
+        while (!sized) {
+            paint.textSize = textWidth.toFloat() * scale
+            paint.getTextBounds(text, 0, 1, bounds)
+            var height = bounds.height()
+            var width = bounds.width()
+            Log.i("EARS", "emoji $width x $height")
+            if (//abs(width - textWidth) < (textWidth * tolerance) &&
+                abs(height - textHeight) < (textHeight * tolerance)) {
+                sized = true
+            }
+            else {
+                if (height < textHeight) {
+                    scale += step
+                } else {
+                    scale -= step
+                }
 
-// do a max() down sample
-         
-        var finalBitmap = Bitmap.createScaledBitmap(b, 8, 8, true)
+            }
+        }
 
-        return finalBitmap
+        var height = bounds.height()
+        var width = bounds.width()
+        var hMid = (bounds.top + bounds.bottom) / 2
+        var x = (textWidth) / 2.0f
+        var y = ((textHeight) / 2.0f) - (hMid * 1.0f)
+
+        c.drawText(
+            text,
+            0,
+            text.length,
+            x,
+            y,
+            paint
+        )
+
+        var temp = b
+        var currentSize = textWidth
+
+        while (currentSize > 8) {
+            currentSize /= 4
+            temp = BITMAP_RESIZER(temp, currentSize, currentSize)
+        }
+//        temp = BITMAP_RESIZER(temp, 8,8)
+
+        return temp
+    }
+
+    fun BITMAP_RESIZER(bitmap: Bitmap, newWidth: Int, newHeight: Int): Bitmap? {
+        val scaledBitmap = Bitmap.createBitmap(newWidth, newHeight, Bitmap.Config.ARGB_8888)
+        val ratioX = newWidth / bitmap.width.toFloat()
+        val ratioY = newHeight / bitmap.height.toFloat()
+        val middleX = newWidth / 2.0f
+        val middleY = newHeight / 2.0f
+        val scaleMatrix = Matrix()
+        scaleMatrix.setScale(ratioX, ratioY, middleX, middleY)
+        val canvas = Canvas(scaledBitmap)
+        canvas.setMatrix(scaleMatrix)
+        canvas.drawBitmap(
+            bitmap,
+            middleX - bitmap.width / 2,
+            middleY - bitmap.height / 2,
+            Paint(Paint.FILTER_BITMAP_FLAG)
+        )
+        return scaledBitmap
     }
 
     override fun onDestroyView() {

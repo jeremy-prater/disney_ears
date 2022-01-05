@@ -11,7 +11,6 @@ import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.navigateUp
 import androidx.navigation.ui.setupActionBarWithNavController
 import android.view.Menu
-import android.os.Handler
 import android.view.MenuItem
 import android.bluetooth.le.ScanCallback
 import android.bluetooth.le.ScanResult
@@ -19,20 +18,17 @@ import android.bluetooth.le.ScanSettings
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.os.Build
 import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import net.pdev.ears.databinding.ActivityMainBinding
 import org.jetbrains.anko.alert
-import android.app.AlertDialog
-import android.content.DialogInterface
 import androidx.activity.viewModels
+import androidx.core.provider.FontRequest
+import androidx.emoji.bundled.BundledEmojiCompatConfig
+import androidx.emoji.text.EmojiCompat
+import androidx.emoji.text.FontRequestEmojiCompatConfig
 import androidx.navigation.NavController
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import androidx.recyclerview.widget.SimpleItemAnimator
-import java.nio.ByteBuffer
 import java.util.*
 
 private const val ENABLE_BLUETOOTH_REQUEST_CODE = 1
@@ -79,7 +75,7 @@ class MainActivity : AppCompatActivity() {
     private val isLocationPermissionGranted
         get() = hasPermission(Manifest.permission.ACCESS_FINE_LOCATION)
 
-    fun Context.hasPermission(permissionType: String): Boolean {
+    private fun Context.hasPermission(permissionType: String): Boolean {
         return ContextCompat.checkSelfPermission(this, permissionType) ==
                 PackageManager.PERMISSION_GRANTED
     }
@@ -156,7 +152,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun setEarColors(led_data: UByteArray) {
+    private fun setEarColors(led_data: UByteArray) {
         if (earsGatt == null) {
             return
         }
@@ -242,19 +238,22 @@ class MainActivity : AppCompatActivity() {
             with(characteristic) {
                 when (status) {
                     BluetoothGatt.GATT_SUCCESS -> {
-                        if (uuid == UUID.fromString("00001ed5-0000-1000-8000-00805f9b34fb")) {
-                            Log.i("BLE", "Got LED values")
-                            runOnUiThread {
-                                ledModel.setLEDData(characteristic.value.toUByteArray())
+                        when (uuid) {
+                            UUID.fromString("00001ed5-0000-1000-8000-00805f9b34fb") -> {
+                                Log.i("BLE", "Got LED values")
+                                runOnUiThread {
+                                    ledModel.setLEDData(characteristic.value.toUByteArray())
+                                }
                             }
-                        } else if (uuid == UUID.fromString("0000ba11-0000-1000-8000-00805f9b34fb")) {
-                            Log.i("BLE", "Got battery values")
-                            var bytes = characteristic.value.toUByteArray()
-                            runOnUiThread {
-                                batteryModel.setBatteryLevel(littleEndianConversion(bytes).toUInt())
+                            UUID.fromString("0000ba11-0000-1000-8000-00805f9b34fb") -> {
+                                Log.i("BLE", "Got battery values")
+                                val bytes = characteristic.value.toUByteArray()
+                                runOnUiThread {
+                                    batteryModel.setBatteryLevel(littleEndianConversion(bytes).toUInt())
+                                }
                             }
-                        } else {
-
+                            else -> {
+                            }
                         }
                     }
                     BluetoothGatt.GATT_READ_NOT_PERMITTED -> {
@@ -278,7 +277,7 @@ class MainActivity : AppCompatActivity() {
             with(characteristic) {
                 when (status) {
                     BluetoothGatt.GATT_SUCCESS -> {
-                        Log.i("BluetoothGattCallback", "Wrote to characteristic $uuid");
+                        Log.i("BluetoothGattCallback", "Wrote to characteristic $uuid")
                     }
                     BluetoothGatt.GATT_INVALID_ATTRIBUTE_LENGTH -> {
                         Log.e("BluetoothGattCallback", "Write exceeded connection ATT MTU!")
@@ -356,7 +355,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun startBleScan() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M && !isLocationPermissionGranted) {
+        if (!isLocationPermissionGranted) {
             Log.w("startBLEScan", "requesting location perms")
             requestLocationPermission()
         } else {
@@ -426,6 +425,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val config = BundledEmojiCompatConfig(this)
+        EmojiCompat.init(config)
 
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
