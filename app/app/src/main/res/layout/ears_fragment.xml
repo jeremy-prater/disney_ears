@@ -26,18 +26,18 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:visibility="invisible"
                     android:layout_width="0dp"
                     android:layout_height="20dp"
                     android:layout_weight="0.125"
-                    android:src="@drawable/ears" />
+                    android:src="@drawable/ears"
+                    android:visibility="invisible" />
 
                 <ImageView
-                    android:visibility="invisible"
                     android:layout_width="0dp"
                     android:layout_height="20dp"
                     android:layout_weight="0.125"
-                    android:src="@drawable/ears" />
+                    android:src="@drawable/ears"
+                    android:visibility="invisible" />
 
                 <ImageView
                     android:id="@+id/led.0"
@@ -68,18 +68,18 @@
                     android:src="@drawable/ears" />
 
                 <ImageView
-                    android:visibility="invisible"
                     android:layout_width="0dp"
                     android:layout_height="20dp"
                     android:layout_weight="0.125"
-                    android:src="@drawable/ears" />
+                    android:src="@drawable/ears"
+                    android:visibility="invisible" />
 
                 <ImageView
-                    android:visibility="invisible"
                     android:layout_width="0dp"
                     android:layout_height="20dp"
                     android:layout_weight="0.125"
-                    android:src="@drawable/ears" />
+                    android:src="@drawable/ears"
+                    android:visibility="invisible" />
 
             </LinearLayout>
 
@@ -89,11 +89,11 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:visibility="invisible"
                     android:layout_width="0dp"
                     android:layout_height="20dp"
                     android:layout_weight="0.125"
-                    android:src="@drawable/ears" />
+                    android:src="@drawable/ears"
+                    android:visibility="invisible" />
 
                 <ImageView
                     android:id="@+id/led.4"
@@ -138,11 +138,11 @@
                     android:src="@drawable/ears" />
 
                 <ImageView
-                    android:visibility="invisible"
                     android:layout_width="0dp"
                     android:layout_height="20dp"
                     android:layout_weight="0.125"
-                    android:src="@drawable/ears" />
+                    android:src="@drawable/ears"
+                    android:visibility="invisible" />
 
             </LinearLayout>
 
@@ -152,11 +152,11 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:visibility="invisible"
                     android:layout_width="0dp"
                     android:layout_height="20dp"
                     android:layout_weight="0.125"
-                    android:src="@drawable/ears" />
+                    android:src="@drawable/ears"
+                    android:visibility="invisible" />
 
                 <ImageView
                     android:id="@+id/led.10"
@@ -201,11 +201,11 @@
                     android:src="@drawable/ears" />
 
                 <ImageView
-                    android:visibility="invisible"
                     android:layout_width="0dp"
                     android:layout_height="20dp"
                     android:layout_weight="0.125"
-                    android:src="@drawable/ears" />
+                    android:src="@drawable/ears"
+                    android:visibility="invisible" />
 
             </LinearLayout>
 
@@ -340,11 +340,11 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:visibility="invisible"
                     android:layout_width="0dp"
                     android:layout_height="20dp"
                     android:layout_weight="0.125"
-                    android:src="@drawable/ears" />
+                    android:src="@drawable/ears"
+                    android:visibility="invisible" />
 
                 <ImageView
                     android:id="@+id/led.32"
@@ -389,11 +389,11 @@
                     android:src="@drawable/ears" />
 
                 <ImageView
-                    android:visibility="invisible"
                     android:layout_width="0dp"
                     android:layout_height="20dp"
                     android:layout_weight="0.125"
-                    android:src="@drawable/ears" />
+                    android:src="@drawable/ears"
+                    android:visibility="invisible" />
 
             </LinearLayout>
 
@@ -403,11 +403,11 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:visibility="invisible"
                     android:layout_width="0dp"
                     android:layout_height="20dp"
                     android:layout_weight="0.125"
-                    android:src="@drawable/ears" />
+                    android:src="@drawable/ears"
+                    android:visibility="invisible" />
 
                 <ImageView
                     android:id="@+id/led.38"
@@ -452,11 +452,11 @@
                     android:src="@drawable/ears" />
 
                 <ImageView
-                    android:visibility="invisible"
                     android:layout_width="0dp"
                     android:layout_height="20dp"
                     android:layout_weight="0.125"
-                    android:src="@drawable/ears" />
+                    android:src="@drawable/ears"
+                    android:visibility="invisible" />
 
             </LinearLayout>
 
@@ -466,18 +466,18 @@
                 android:orientation="horizontal">
 
                 <ImageView
-                    android:visibility="invisible"
                     android:layout_width="0dp"
                     android:layout_height="20dp"
                     android:layout_weight="0.125"
-                    android:src="@drawable/ears" />
+                    android:src="@drawable/ears"
+                    android:visibility="invisible" />
 
                 <ImageView
-                    android:visibility="invisible"
                     android:layout_width="0dp"
                     android:layout_height="20dp"
                     android:layout_weight="0.125"
-                    android:src="@drawable/ears" />
+                    android:src="@drawable/ears"
+                    android:visibility="invisible" />
 
                 <ImageView
                     android:id="@+id/led.44"
@@ -508,18 +508,18 @@
                     android:src="@drawable/ears" />
 
                 <ImageView
-                    android:visibility="invisible"
                     android:layout_width="0dp"
                     android:layout_height="20dp"
                     android:layout_weight="0.125"
-                    android:src="@drawable/ears" />
+                    android:src="@drawable/ears"
+                    android:visibility="invisible" />
 
                 <ImageView
-                    android:visibility="invisible"
                     android:layout_width="0dp"
                     android:layout_height="20dp"
                     android:layout_weight="0.125"
-                    android:src="@drawable/ears" />
+                    android:src="@drawable/ears"
+                    android:visibility="invisible" />
 
             </LinearLayout>
 
@@ -1046,13 +1046,13 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="20dp"
+        android:layout_height="wrap_content"
         android:orientation="horizontal">
 
         <SeekBar
             android:id="@+id/ledBrightness"
             android:layout_width="250dp"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:max="25"
             android:min="0" />
 
@@ -1061,43 +1061,74 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="20%" />
+            android:fontFamily="monospace"
+            android:gravity="center"
+            android:text="20%"
+            android:textAlignment="center"
+            android:textSize="24sp" />
+
         <TextView
             android:id="@+id/vBattText"
             android:layout_width="50dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-            android:text="vBatt : 7000 mv" />
+            android:fontFamily="monospace"
+            android:gravity="center"
+            android:text="vBatt : 7000 mv"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/mode_off"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Off" />
+
+        <Space
+            android:layout_width="15dp"
+            android:layout_height="match_parent"/>
+
+        <Button
+            android:id="@+id/mode_random"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Random" />
+
+        <Space
+            android:layout_width="15dp"
+            android:layout_height="match_parent"/>
+
+        <Button
+            android:id="@+id/mode_static"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="Idle" />
+
+        <Space
+            android:layout_width="15dp"
+            android:layout_height="match_parent"/>
+
+        <Button
+            android:id="@+id/mode_happy"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            tools:text="Set Emoji" />
+
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal">
+        android:orientation="vertical">
 
-        <Button
-            android:id="@+id/mode_off"
-            android:layout_width="100dp"
-            android:layout_height="50dp"
-            android:text="Off" />
-
-        <Button
-            android:id="@+id/mode_random"
-            android:layout_width="100dp"
-            android:layout_height="50dp"
-            android:text="Random" />
-
-        <Button
-            android:id="@+id/mode_static"
-            android:layout_width="100dp"
-            android:layout_height="50dp"
-            android:text="Idle" />
-
-        <Button
-            android:id="@+id/mode_happy"
-            android:layout_width="100dp"
-            android:layout_height="50dp"
-            tools:text="😀😀" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent" />
     </LinearLayout>
 
 </LinearLayout>
