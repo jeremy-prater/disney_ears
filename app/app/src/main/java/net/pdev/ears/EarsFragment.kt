@@ -31,6 +31,7 @@ import android.text.Layout
 import android.text.StaticLayout
 
 import android.text.TextPaint
+import android.widget.SeekBar.OnSeekBarChangeListener
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SimpleItemAnimator
@@ -57,6 +58,7 @@ class EarsFragment : Fragment() {
     private var ledData: UByteArray = UByteArray(maxSize)
     private var ledMode: LedMode = LedMode.Static
     private var staticMode: Int = 0
+    private var brightness: Int = 1
 
     enum class LedMode {
         Off,
@@ -76,6 +78,7 @@ class EarsFragment : Fragment() {
         _binding = EarsFragmentBinding.inflate(inflater, container, false)
         setupRecyclerView()
         setEmojiButton()
+
         ledModel.getRawData().observe(viewLifecycleOwner, { bytes ->
             Log.i("EARS", "Update led color : ${bytes.size / 3} leds")
             ledData = bytes
@@ -86,9 +89,9 @@ class EarsFragment : Fragment() {
             updateEarLEDColors()
         })
 
-        ledModel.getBrightness().observe(viewLifecycleOwner, { brightness ->
-            this.binding.ledBrightness.progress = (brightness * 100).toInt()
-        })
+//        ledModel.getBrightness().observe(viewLifecycleOwner, { brightness ->
+//            this.binding.ledBrightness.progress = (brightness * 100).toInt()
+//        })
 
         this.binding.ledBrightness.setOnSeekBarChangeListener(object :
             SeekBar.OnSeekBarChangeListener {
@@ -96,10 +99,11 @@ class EarsFragment : Fragment() {
                 seek: SeekBar,
                 progress: Int, fromUser: Boolean
             ) {
-                var brightness: Double = progress / 100.0
-                Log.i("LEDBright", "${progress}%")
+                val level : Double = progress / 100.0
+                val brightness: Double = level * level.pow(1.5)
+                Log.i("LEDBright", "${brightness}%")
                 ledModel.setBrightness(brightness)
-                binding.ledBrightnessLevel.text = "${progress}%"
+                binding.ledBrightnessLevel.text = "%.1f%%".format(brightness * 100)
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {
@@ -134,6 +138,9 @@ class EarsFragment : Fragment() {
         EmojiGroup(13, "\uD83D\uDD05","\uD83D\uDD05"), // 🔅
         EmojiGroup(14, "❓","❓"), // ❓
         EmojiGroup(15, "❗","❗"), // ❗
+        EmojiGroup(16, "\uD83C\uDF84","\uD83C\uDF84"), // 🎄
+        EmojiGroup(17, "❄","❄"), // ❄
+        EmojiGroup(18, "\uD83D\uDCA6","\uD83D\uDCA6"), // 💦
     )
     
     val emojiGroupAdapter: EmojiGroupAdapter by lazy {
@@ -172,7 +179,7 @@ class EarsFragment : Fragment() {
 
     fun updateBatteryLevel(level: UInt) {
         Log.i("EARS", "Update battery level : $level")
-        this.binding.vBattText.text = "vBatt : $level mv"
+        this.binding.vBattText.text = "vBatt\n$level mv"
     }
 
     fun getLEDColor(ledID: Int): ColorStateList {
