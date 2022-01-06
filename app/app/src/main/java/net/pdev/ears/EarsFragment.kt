@@ -24,12 +24,16 @@ import androidx.emoji.text.EmojiCompat
 import android.graphics.Paint.ANTI_ALIAS_FLAG
 import androidx.core.graphics.get
 import android.R.attr.bitmap
+import android.bluetooth.le.ScanResult
 import android.graphics.Bitmap
 import android.text.Layout
 
 import android.text.StaticLayout
 
 import android.text.TextPaint
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.SimpleItemAnimator
 import java.lang.Integer.min
 import kotlin.math.abs
 import kotlin.math.max
@@ -70,7 +74,8 @@ class EarsFragment : Fragment() {
     ): View? {
         downloadedLedData = false
         _binding = EarsFragmentBinding.inflate(inflater, container, false)
-
+        setupRecyclerView()
+        setEmojiButton()
         ledModel.getRawData().observe(viewLifecycleOwner, { bytes ->
             Log.i("EARS", "Update led color : ${bytes.size / 3} leds")
             ledData = bytes
@@ -112,6 +117,58 @@ class EarsFragment : Fragment() {
         return binding.root
     }
 
+    private val emojiList = listOf<EmojiGroup>(
+        EmojiGroup(0, "⚠", "⚠"), // ⚠
+        EmojiGroup(1, "❤", "❤"), // ❤
+        EmojiGroup(2, "H", "I"), // HI
+        EmojiGroup(3, "\uD83C\uDF34", "\uD83C\uDF34"), // 🌴
+        EmojiGroup(4, "\uD83C\uDF4D", "\uD83C\uDF4D"), // 🍍
+        EmojiGroup(5, "\uD83C\uDF44", "\uD83C\uDF44"), // 🍄
+        EmojiGroup(6, "\uD83D\uDCA5","\uD83D\uDCA5"), // 💥
+        EmojiGroup(7, "\uD83C\uDF08","\uD83C\uDF08"), // 🌈
+        EmojiGroup(8, "⭐","⭐"), // ⭐
+        EmojiGroup(9, "\uD83D\uDD25","\uD83D\uDD25"), // 🔥
+        EmojiGroup(10, "☢","☢"), // ☢
+        EmojiGroup(11, "↘","↘"), // ↘
+        EmojiGroup(12, "↖","↖"), // ↖
+        EmojiGroup(13, "\uD83D\uDD05","\uD83D\uDD05"), // 🔅
+        EmojiGroup(14, "❓","❓"), // ❓
+        EmojiGroup(15, "❗","❗"), // ❗
+    )
+    
+    val emojiGroupAdapter: EmojiGroupAdapter by lazy {
+        EmojiGroupAdapter(emojiList) { result ->
+            // User tapped on an emoji group
+            with(result.id) {
+                Log.w("EmojiGroup", "Selected : ${result.id}")
+                staticMode = result.id
+                setEmojiButton()
+            }
+        }
+    }
+
+    private fun setEmojiButton() {
+        var newText : String = "Set\n" +  emojiList[staticMode].left + emojiList[staticMode].right
+        this.binding.modeEmoji.text = newText
+    }
+
+    private fun setupRecyclerView() {
+        binding.emojiGroupRecycler.apply {
+            adapter = emojiGroupAdapter
+
+            layoutManager = LinearLayoutManager(
+                this@EarsFragment.context,
+                RecyclerView.VERTICAL,
+                false
+            )
+            isNestedScrollingEnabled = false
+        }
+
+        val animator = binding.emojiGroupRecycler.itemAnimator
+        if (animator is SimpleItemAnimator) {
+            animator.supportsChangeAnimations = false
+        }
+    }
 
     fun updateBatteryLevel(level: UInt) {
         Log.i("EARS", "Update battery level : $level")
@@ -248,7 +305,7 @@ class EarsFragment : Fragment() {
             ledMode = LedMode.Random
         }
 
-        this.binding.modeStatic.onClick {
+        this.binding.modeIdle.onClick {
             ledMode = LedMode.Static
         }
 
@@ -257,29 +314,9 @@ class EarsFragment : Fragment() {
             ledMode = LedMode.Off
         }
 
-        this.binding.modeHappy.onClick {
-            when(staticMode) {
-                1 -> ledModeStatic("❤", "❤") // ❤
-                2 -> ledModeStatic("H", "I") // HI
-                3 -> ledModeStatic("\uD83C\uDF34", "\uD83C\uDF34") // 🌴
-                4 -> ledModeStatic("\uD83C\uDF4D", "\uD83C\uDF4D") // 🍍
-                5 -> ledModeStatic("\uD83C\uDF44", "\uD83C\uDF44") // 🍄
-                6 -> ledModeStatic("\uD83D\uDCA5","\uD83D\uDCA5") // 💥
-                7 -> ledModeStatic("\uD83C\uDF08","\uD83C\uDF08") // 🌈
-                8 -> ledModeStatic("⭐","⭐") // ⭐
-                9 -> ledModeStatic("\uD83D\uDD25","\uD83D\uDD25") // 🔥
-                10 -> ledModeStatic("☢","☢") // ☢
-                11 -> ledModeStatic("↘","↘") // ↘
-                12 -> ledModeStatic("↖","↖") // ↖
-                13 -> ledModeStatic("\uD83D\uDD05","\uD83D\uDD05") // 🔅
-                14 -> ledModeStatic("❓","❓") // ❓
-                15 -> ledModeStatic("❗","❗") // ❗
-            else -> {
-                    ledModeStatic("⚠", "⚠") // ⚠
-                    staticMode = 0
-                }
-            }
-            staticMode += 1
+        this.binding.modeEmoji.onClick {
+            ledMode = LedMode.Static
+            ledModeEmoji(emojiList[staticMode].left, emojiList[staticMode].right)
         }
 
         getEarDataTimer = Timer("getEarData", false)
@@ -289,7 +326,7 @@ class EarsFragment : Fragment() {
         }
 
         ledStateDataTimer = Timer("updateLEDState", false)
-        ledStateDataTimer?.schedule(0, 3000) {
+        ledStateDataTimer?.schedule(0, 5000) {
 //            Log.i("getEarDataTimer", "getEarData tick")
             (activity as MainActivity).getBatteryLevel()
 
@@ -307,7 +344,7 @@ class EarsFragment : Fragment() {
         }
     }
 
-    private fun ledModeStatic(lData: CharSequence, rData: CharSequence) {
+    private fun ledModeEmoji(lData: CharSequence, rData: CharSequence) {
         val width = 2048
         val height = width
         val lEmoji = EmojiCompat.get().process(lData)
